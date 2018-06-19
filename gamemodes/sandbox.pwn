@@ -9,6 +9,8 @@
 #include <errors>
 #include <settings>
 #include <requests>
+#include <easyDialog>
+#include <bcrypt>
 
 
 // -

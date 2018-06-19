@@ -9,7 +9,9 @@
 		"Southclaws/pawn-errors",
 		"pawn-lang/YSI-Includes",
 		"ScavengeSurvive/settings",
-		"Southclaws/pawn-requests"
+		"Southclaws/pawn-requests",
+		"lassir/bcrypt-samp",
+		"Awsomedude/easyDialog"
 	],
 	"local": true,
 	"runtime": {

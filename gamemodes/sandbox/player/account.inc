@@ -1,24 +1,16 @@
-// Contains login code, calls a callback with load result
+// Contains account load and creation code.
 
 #include <YSI\y_hooks>
 
 
-enum E_PLAYER_DATA {
-    E_PLAYER_PASSWORD[MAX_PASSWORD_LEN],
-    Float:E_PLAYER_SPAWN_X,
-    Float:E_PLAYER_SPAWN_Y,
-    Float:E_PLAYER_SPAWN_Z,
-    Float:E_PLAYER_SPAWN_A,
-    Float:E_PLAYER_HEALTH,
-    Float:E_PLAYER_ARMOUR,
-    E_PLAYER_CASH,
-}
-
-static Data[MAX_PLAYERS][E_PLAYER_DATA];
 
 // OnAccountLoaded is called when a player has completed the login flow and has
 // either an existing account or needs to register a new one.
-forward OnAccountLoaded(playerid, Node:node);
+forward OnAccountLoaded(playerid, bool:exists, Node:node);
+
+// OnAccountStore is called before an account is stored. This is where modules
+// should append data to `node` using JsonAppend.
+forward OnAccountStore(playerid, Node:node);
 
 // RequestsClient stores the client information for making requests such as the
 // endpoint and headers. Though in this example, we are no using any headers.
@@ -27,6 +19,7 @@ static RequestsClient:client;
 // We're using BigETI's map plugin to simplify the process of knowing which
 // player ID triggered which request.
 static Map:LoadRequestToPlayerID;
+static Map:SaveRequestToPlayerID;
 
 hook OnScriptInit() {
     new endpoint[128];
@@ -41,7 +34,7 @@ hook OnScriptInit() {
     return Y_HOOKS_CONTINUE_RETURN_1;
 }
 
-StartLoginFlow(playerid) {
+LoadAccount(playerid) {
     new name[MAX_PLAYER_NAME];
     GetPlayerName(playerid, name, MAX_PLAYER_NAME);
 
@@ -81,47 +74,46 @@ public OnLoadData(Request:id, E_HTTP_STATUS:status, Node:node) {
     new bool:ok;
     new Node:result = Node:-1; // invalid by default
     JsonGetBool(node, "ok", ok);
-    if(!ok) {
-        // this is the equivalent of a "404 not found"
-
-        SendClientMessage(playerid, -1, "Welcome to the server, first-timer!");
-        // set the player's position to a sane default
-        Data[playerid][E_PLAYER_SPAWN_X] = DEFAULT_POS_X;
-        Data[playerid][E_PLAYER_SPAWN_Y] = DEFAULT_POS_Y;
-        Data[playerid][E_PLAYER_SPAWN_Z] = DEFAULT_POS_Z;
-
-        // return, nothing else to do
-        return;
-    } else {
-        // now, the result exists so extract it as a JSON object
+    if(ok) {
         JsonGetObject(node, "result", result);
-
-        JsonGetFloat(node, "x", Data[playerid][E_PLAYER_SPAWN_X]);
-        JsonGetFloat(node, "y", Data[playerid][E_PLAYER_SPAWN_Y]);
-        JsonGetFloat(node, "z", Data[playerid][E_PLAYER_SPAWN_Z]);
-        JsonGetFloat(node, "a", Data[playerid][E_PLAYER_SPAWN_A]);
-        JsonGetFloat(node, "health", Data[playerid][E_PLAYER_HEALTH]);
-        JsonGetFloat(node, "armour", Data[playerid][E_PLAYER_ARMOUR]);
-        JsonGetInt(node, "cash", Data[playerid][E_PLAYER_CASH]);
     }
+
+    CallLocalFunction("OnAccountLoaded", "ddd", playerid, ok, _:result);
 
     return;
 }
 
+StoreAccount(playerid) {
+    new name[MAX_PLAYER_NAME];
+    GetPlayerName(playerid, name, MAX_PLAYER_NAME);
 
-// -
-// Interface
-// -
+    new Node:object = JsonObject();
+    CallLocalFunction("OnAccountStore", "dd", playerid, _:object);
 
-stock GetPlayerSpawn(playerid, &Float:x, &Float:y, &Float:z, &Float:a) {
-    if(IsPlayerConnected(playerid)) {
-        return 1;
+    // Sends a POST request to jsonstore.io with a JSON object built inline
+    new Request:id = RequestJSON(
+        client,           // use the jsonstore client
+        name,             // use the player's name as the URL path
+        HTTP_METHOD_POST, // use the HTTP POST method
+        "OnSaveData",     // call OnSaveData when the request has finished
+        object
+    );
+
+    // Same map strategy as with the loading data process
+    MAP_insert_val_val(SaveRequestToPlayerID, _:id, playerid);
+}
+
+forward OnSaveData(Request:id, E_HTTP_STATUS:status, Node:node);
+public OnSaveData(Request:id, E_HTTP_STATUS:status, Node:node) {
+    new playerid = MAP_get_val_val(SaveRequestToPlayerID, _:id);
+    MAP_remove_val(SaveRequestToPlayerID, _:id);
+
+    if(status != HTTP_STATUS_CREATED) {
+        err("failed to POST player data",
+            _i("playerid", playerid),
+            _i("status", _:status));
+    } else {
+        log("player data stored",
+            _i("playerid", playerid));
     }
-
-    x = Data[playerid][E_PLAYER_SPAWN_X];
-    y = Data[playerid][E_PLAYER_SPAWN_Y];
-    z = Data[playerid][E_PLAYER_SPAWN_Z];
-    a = Data[playerid][E_PLAYER_SPAWN_A];
-
-    return 0;
 }
