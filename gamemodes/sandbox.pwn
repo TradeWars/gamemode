@@ -6,20 +6,13 @@
 
 #include <a_samp>
 #include <logger>
-#include <errors>
-#include <settings>
-#include <requests>
-#include <easyDialog>
-#include <bcrypt>
 
 
 // -
 // Internals
 // -
 
-#include "sandbox/player/class-selection"
-#include "sandbox/player/core"
-#include "sandbox/player/account"
+#include <player-spawn>
 
 
 // -
