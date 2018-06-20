@@ -30,30 +30,40 @@ hook OnScriptInit() {
 
     // Create the requests client with the endpoint.
     client = RequestsClient(endpoint);
+    if(!IsValidRequestsClient(client)) {
+        fatal("failed to create requests client");
+    }
 
     return Y_HOOKS_CONTINUE_RETURN_1;
 }
 
 LoadAccount(playerid) {
-    new name[MAX_PLAYER_NAME];
-    GetPlayerName(playerid, name, MAX_PLAYER_NAME);
+    new path[8 + MAX_PLAYER_NAME];
+    GetPlayerName(playerid, path, MAX_PLAYER_NAME);
+    strins(path, "/users/", 0);
 
-    // This is our first request - this sends a GET request to jsonstore.io and
-    // uses the player's name as the path. The full URL would look something
-    // like: `https://jsonstore.io/<key>/Southclaws` for my username.
+    dbg("player", "loading account",
+        _i("playerid", playerid),
+        _s("path", path));
+
     new Request:id = RequestJSON(
         client,          // use the jsonstore client
-        name,            // use the player's name as the URL path
+        path,            // use the player's name as the URL path
         HTTP_METHOD_GET, // use the HTTP GET method
-        "OnLoadData"     // call OnLoadData when the response arrives
+        "onLoadData"     // call onLoadData when the response arrives
     );
+    if(!IsValidRequest(id)) {
+        err("failed to create request",
+            _i("return", _:id));
+        return;
+    }
 
     // map the request ID to the player ID
     MAP_insert_val_val(LoadRequestToPlayerID, _:id, playerid);
 }
 
-forward OnLoadData(Request:id, E_HTTP_STATUS:status, Node:node);
-public OnLoadData(Request:id, E_HTTP_STATUS:status, Node:node) {
+forward onLoadData(Request:id, E_HTTP_STATUS:status, Node:node);
+public onLoadData(Request:id, E_HTTP_STATUS:status, Node:node) {
     // get the player's ID from the request ID that was stored in
     // OnPlayerConnect
     new playerid = MAP_get_val_val(LoadRequestToPlayerID, _:id);
@@ -72,39 +82,63 @@ public OnLoadData(Request:id, E_HTTP_STATUS:status, Node:node) {
     // "result"
     // ok is a bool that indicates if the document exists, so check we check it:
     new bool:ok;
-    new Node:result = Node:-1; // invalid by default
     JsonGetBool(node, "ok", ok);
-    if(ok) {
-        JsonGetObject(node, "result", result);
+    if(!ok) {
+        err("failed to get account, status not ok");
     }
 
-    CallLocalFunction("OnAccountLoaded", "ddd", playerid, ok, _:result);
+    new Node:result = Node:-1; // invalid by default
+    if(JsonGetObject(node, "result", result) != 0) {
+        err("failed to get result from payload");
+    }
+
+    new bool:exists;
+    if(JsonNodeType(result) != JSON_NODE_OBJECT) {
+        dbg("player", "account does not exist", _i("playerid", playerid));
+        exists = false;
+    } else {
+        dbg("player", "account exists", _i("playerid", playerid), _i("result", _:result));
+        exists = true;
+    }
+
+    CallLocalFunction("OnAccountLoaded", "ddd", playerid, exists, _:result);
 
     return;
 }
 
 StoreAccount(playerid) {
-    new name[MAX_PLAYER_NAME];
-    GetPlayerName(playerid, name, MAX_PLAYER_NAME);
+    new path[8 + MAX_PLAYER_NAME];
+    GetPlayerName(playerid, path, MAX_PLAYER_NAME);
+    strins(path, "/users/", 0);
 
     new Node:object = JsonObject();
+    JsonToggleGC(object, false);
     CallLocalFunction("OnAccountStore", "dd", playerid, _:object);
+    JsonToggleGC(object, true);
 
-    // Sends a POST request to jsonstore.io with a JSON object built inline
+    dbg("player", "storing account",
+        _i("playerid", playerid),
+        _s("path", path));
+
     new Request:id = RequestJSON(
         client,           // use the jsonstore client
-        name,             // use the player's name as the URL path
+        path,             // use the player's name as the URL path
         HTTP_METHOD_POST, // use the HTTP POST method
-        "OnSaveData",     // call OnSaveData when the request has finished
+        "onSaveData",     // call onSaveData when the request has finished
         object
     );
+    if(!IsValidRequest(id)) {
+        err("failed to create request",
+            _i("return", _:id));
+        return;
+    }
 
     // Same map strategy as with the loading data process
     MAP_insert_val_val(SaveRequestToPlayerID, _:id, playerid);
 }
 
-forward OnSaveData(Request:id, E_HTTP_STATUS:status, Node:node);
-public OnSaveData(Request:id, E_HTTP_STATUS:status, Node:node) {
+forward onSaveData(Request:id, E_HTTP_STATUS:status, Node:node);
+public onSaveData(Request:id, E_HTTP_STATUS:status, Node:node) {
     new playerid = MAP_get_val_val(SaveRequestToPlayerID, _:id);
     MAP_remove_val(SaveRequestToPlayerID, _:id);
 
@@ -113,7 +147,7 @@ public OnSaveData(Request:id, E_HTTP_STATUS:status, Node:node) {
             _i("playerid", playerid),
             _i("status", _:status));
     } else {
-        log("player data stored",
+        dbg("player", "player data stored",
             _i("playerid", playerid));
     }
 }
