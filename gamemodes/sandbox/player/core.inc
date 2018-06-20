@@ -31,9 +31,15 @@ hook OnPlayerReady(playerid) {
     SetPlayerCameraPos(playerid, 50.0, 50.0, 50.0);
     SetPlayerCameraLookAt(playerid, 0.0, 0.0, 0.0);
 
+    #if !defined NO_AUTH
     // LoadAccount requests data from the database and calls `OnAccountLoaded`
     // when it's available.
     LoadAccount(playerid);
+    #else
+    #warning No authentication in player connect event
+    setDefaultValues(playerid);
+    spawnReadyPlayer(playerid);
+    #endif
 
     return Y_HOOKS_CONTINUE_RETURN_1;
 }
@@ -52,18 +58,22 @@ hook OnAccountLoaded(playerid, bool:exists, Node:node) {
         promptLogin(playerid);
     } else {
         dbg("player", "new account required", _i("playerid", playerid));
-        Data[playerid][E_PLAYER_PASS][0] = EOS;
-        Data[playerid][E_PLAYER_SPAWN_X] = DEFAULT_POS_X;
-        Data[playerid][E_PLAYER_SPAWN_Y] = DEFAULT_POS_Y;
-        Data[playerid][E_PLAYER_SPAWN_Z] = DEFAULT_POS_Z;
-        Data[playerid][E_PLAYER_SPAWN_A] = 0.0;
-        Data[playerid][E_PLAYER_HEALTH] = 100.0;
-        Data[playerid][E_PLAYER_ARMOUR] = 0.0;
-        Data[playerid][E_PLAYER_CASH] = 0;
+        setDefaultValues(playerid);
         promptRegister(playerid);
     }
 
     return Y_HOOKS_CONTINUE_RETURN_1;
+}
+
+setDefaultValues(playerid) {
+    Data[playerid][E_PLAYER_PASS][0] = EOS;
+    Data[playerid][E_PLAYER_SPAWN_X] = DEFAULT_POS_X;
+    Data[playerid][E_PLAYER_SPAWN_Y] = DEFAULT_POS_Y;
+    Data[playerid][E_PLAYER_SPAWN_Z] = DEFAULT_POS_Z;
+    Data[playerid][E_PLAYER_SPAWN_A] = 0.0;
+    Data[playerid][E_PLAYER_HEALTH] = 100.0;
+    Data[playerid][E_PLAYER_ARMOUR] = 0.0;
+    Data[playerid][E_PLAYER_CASH] = 0;
 }
 
 promptLogin(playerid) {
