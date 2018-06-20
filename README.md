@@ -93,3 +93,11 @@ if you wanted to activate `player` and `weapon` debug logs, you would write:
 debug/0=player
 debug/1=weapon
 ```
+
+## Contributing
+
+Please see the
+[contributing guidelines](https://github.com/Southclaws/samp-sandbox/blob/master/.github/CONTRIBUTING.md)
+if you are interested in contributing to this project. If you are interested in
+contributing regularly, contact me on Discord and I will give you push access to
+the repository.
