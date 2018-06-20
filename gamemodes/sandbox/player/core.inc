@@ -3,7 +3,7 @@
 #include <YSI\y_hooks>
 
 
-static enum E_PLAYER_DATA {
+static enum E_PLAYER {
     E_PLAYER_PASS[BCRYPT_HASH_LENGTH],
     Float:E_PLAYER_SPAWN_X,
     Float:E_PLAYER_SPAWN_Y,
@@ -15,7 +15,7 @@ static enum E_PLAYER_DATA {
 }
 
 
-static Data[MAX_PLAYERS][E_PLAYER_DATA];
+static Data[MAX_PLAYERS][E_PLAYER];
 static bool:LoggedIn[MAX_PLAYERS];
 static const BCRYPT_COST = 12;
 
