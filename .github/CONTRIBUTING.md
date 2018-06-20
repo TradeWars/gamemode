@@ -26,6 +26,21 @@ they are _unexported_. See the [function style](#Functions) section for details.
 Modules must never expose global variables. Functions must be used instead with,
 where appropriate, bounds checking and validity checks.
 
+### Navigating
+
+This project will likely grow quite large, therefore it's essential to document
+some tips for navigating the codebase and working with the dependencies.
+
+The project makes heavy use of dependencies. Pawn lacks namespaces so it can be
+difficult to know where a function came from if it doesn't follow a prefix
+strategy. Currently, the best solution for this is to simply search the entire
+project directory for function names. Prepend `stock` to a function to find it's
+declaration point.
+
+Most dependencies should be documented. If you find one that isn't, and it's
+written by a contributor here, ping them on Discord or open an issue to document
+the code some more.
+
 ## Style
 
 Contributions should adhere to the style guide. This guide is loosely based on
