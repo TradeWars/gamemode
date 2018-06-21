@@ -24,6 +24,14 @@
 				"gamemodes/sandbox/player-lifecycle",
 				"gamemodes/sandbox/player-auth",
 				"gamemodes/sandbox/class-selection"
+			]
+		},
+		{
+			"name": "dev-noauth",
+			"includes": [
+				"gamemodes/sandbox/player-lifecycle",
+				"gamemodes/sandbox/player-auth",
+				"gamemodes/sandbox/class-selection"
 			],
 			"constants": {
 				"NO_AUTH": "1"

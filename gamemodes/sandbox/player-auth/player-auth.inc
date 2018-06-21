@@ -18,13 +18,12 @@
 // Declarations
 // -
 
-// RequestsClient stores the client information for making requests such as the
-// endpoint and headers. Though in this example, we are no using any headers.
-new RequestsClient:storeClient;
-
 // BCRYPT_COST is used in bcrypt calls as the work factor for encryption.
 new const BCRYPT_COST = 12;
 
+const MAX_OBJECT_ID_LEN = 25;
+
+static PlayerObjectID[MAX_PLAYERS][MAX_OBJECT_ID_LEN];
 static PasswordHash[MAX_PLAYERS][BCRYPT_HASH_LENGTH];
 static bool:LoggedIn[MAX_PLAYERS];
 
@@ -44,21 +43,41 @@ forward OnAccountStore(playerid, Node:node);
 // `newPlayer` indicates whether or not the player has just registered.
 forward OnPlayerLogin(playerid, bool:newPlayer);
 
+// IsPlayerLoggedIn returns true if the player is logged in.
+stock bool:IsPlayerLoggedIn(playerid) {
+    if(!IsPlayerConnected(playerid)) {
+        return false;
+    }
+    return LoggedIn[playerid];
+}
+
 // LoadPlayerAccount is called to initiate the account load process. This
 // function will trigger HTTP calls to get player data, it will display dialogs
 // to the player and eventually, once the process has completed, the event
 // `OnPlayerLogin` is emitted on success. On failure, the player is kicked.
-stock LoadPlayerAccount(playerid) {
-    accountLoad(playerid);
+stock Error:LoadPlayerAccount(playerid) {
+    new name[MAX_PLAYER_NAME];
+    GetPlayerName(playerid, name, MAX_PLAYER_NAME);
+    return SSC_PlayerGetByName(storeClient, playerid, name);
 }
 
 // StorePlayerAccount can be called to trigger the storage request to run. This
 // will call `OnAccountStore` so other packages can hook this and contribute
 // data to the player's account JSON object.
-stock StorePlayerAccount(playerid) {
-    if(LoggedIn[playerid]) {
-        accountStore(playerid);
+stock Error:StorePlayerAccount(playerid) {
+    if(!LoggedIn[playerid]) {
+        return Error(1, "player not logged in");
     }
+
+    new Node:object = JsonObject(
+        "_id", JsonString(PlayerObjectID[playerid])
+    );
+
+    JsonToggleGC(object, false);
+    CallLocalFunction("OnAccountStore", "dd", playerid, _:object);
+    JsonToggleGC(object, true);
+
+    return SSC_PlayerUpdate(storeClient, playerid, object);
 }
 
 
@@ -66,63 +85,115 @@ stock StorePlayerAccount(playerid) {
 // Internal
 // -
 
-#include "request-load"
-#include "request-store"
 #include "dialog-register"
 #include "dialog-login"
 #include <YSI\y_hooks>
 
-hook OnPlayerConnect(playerid) {
-    dbg("player", "player connect", _i("playerid", playerid));
-
-    return Y_HOOKS_CONTINUE_RETURN_1;
-}
-
-hook OnScriptInit() {
-    new
-        endpoint[128],
-        auth[64];
-
-    GetSettingString("settings.ini", "endpoint", "http://localhost:7788", endpoint);
-    GetSettingString("settings.ini", "auth", "cunning_fox", auth);
-
-    // Create the requests client with the endpoint.
-    storeClient = RequestsClient(endpoint, RequestHeaders(
-        "Authorization", auth
-    ));
-    if(!IsValidRequestsClient(storeClient)) {
-        fatal("failed to create requests client");
+hook OnSSCPlayerGet(playerid, bool:success, message[], Error:error, Node:result) {
+    if(IsError(error)) {
+        PrintErrors();
+        Handled();
     }
 
-    return Y_HOOKS_CONTINUE_RETURN_1;
-}
+    if(success) {
+        new Node:account;
+        new ret = JsonGetObject(result, "account", account);
+        if(ret) {
+            err("failed to read account field",
+                _i("ret", ret));
+        }
 
-hook OnAccountLoaded(playerid, bool:exists, Node:node) {
-    if(exists) {
+        if(JsonGetString(account, "pass", PasswordHash[playerid], BCRYPT_HASH_LENGTH)) {
+            err("failed to read account.pass field");
+        }
+
         dbg("player", "existing account loaded", _i("playerid", playerid));
-        JsonGetString(node, "pass", PasswordHash[playerid], BCRYPT_HASH_LENGTH);
         promptLogin(playerid, PasswordHash[playerid]);
     } else {
         dbg("player", "new account required", _i("playerid", playerid));
         promptRegister(playerid);
     }
 
-    return Y_HOOKS_CONTINUE_RETURN_1;
+    CallLocalFunction("OnAccountLoaded", "ddd", playerid, success, _:result);
+}
+
+hook OnSSCPlayerUpdate(playerid, bool:success, message[], Error:error, Node:result) {
+    if(IsError(error)) {
+        err("failed to update player data",
+            _E(error));
+        Handled();
+    }
+
+    if(!success) {
+        err("updatePlayer failed",
+            _s("message", message));
+    }
+}
+
+hook OnSSCPlayerCreate(playerid, bool:success, message[], Error:error, Node:result) {
+    if(IsError(error)) {
+        err("failed to update player data",
+            _E(error));
+        Handled();
+    }
+
+    if(!success) {
+        err("updatePlayer failed",
+            _s("message", message));
+    }
+
+    new ret = JsonGetNodeString(result, PlayerObjectID[playerid], MAX_OBJECT_ID_LEN);
+    if(ret) {
+        err("failed to get result as string",
+            _i("ret", ret));
+    }
 }
 
 hook OnAccountStore(playerid, Node:node) {
-    JsonSetString(node, "pass", PasswordHash[playerid], BCRYPT_HASH_LENGTH);
+    new
+        name[MAX_PLAYER_NAME],
+        ipv4[16],
+        hash[41];
+
+    GetPlayerName(playerid, name, MAX_PLAYER_NAME);
+    GetPlayerIp(playerid, ipv4, sizeof ipv4);
+    gpci(playerid, hash, sizeof hash);
+
+    JsonSetObject(node, "account", JsonObject(
+        "name", JsonString(name),
+        "pass", JsonString(PasswordHash[playerid]),
+        "ipv4", JsonString(ipv4),
+        "gpci", JsonString(hash)
+    ));
+}
+
+onRegistered(playerid) {
+    bcrypt_get_hash(PasswordHash[playerid]);
+
+    new Node:object = JsonObject();
+
+    JsonToggleGC(object, false);
+    CallLocalFunction("OnAccountStore", "dd", playerid, _:object);
+    JsonToggleGC(object, true);
+
+    new Error:e = SSC_PlayerCreate(storeClient, playerid, object);
+    if(IsError(e)) {
+        err("failed to send playerCreate request");
+        return;
+    }
+
+    signalReady(playerid, true);
 }
 
 onLoggedIn(playerid) {
-    bcrypt_get_hash(PasswordHash[playerid]);
-    accountStore(playerid);
     signalReady(playerid, true);
 }
 
 // signalReady is called when the player has either successfully registered or
 // logged in. This emits the OnPlayerLogin event.
 signalReady(playerid, bool:newPlayer) {
+    dbg("player", "player authenticated successfully", _i("playerid", playerid));
+
     LoggedIn[playerid] = true;
     CallLocalFunction("OnPlayerLogin", "dd", playerid, newPlayer);
 }

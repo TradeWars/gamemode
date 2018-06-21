@@ -8,6 +8,15 @@
 #include <logger>
 #include <sscanf2>
 
+native gpci(playerid, serial[], len);
+
+
+// -
+// Global Declarations
+// -
+
+new RequestsClient:storeClient;
+
 
 // -
 // Internals
@@ -23,11 +32,28 @@
 public OnScriptInit() {
     log("script initialised");
 
+    // Load debug logging levels
     new debugs[10][32], total;
     GetSettingStringArray("settings.ini", "debug", "none", debugs, total);
 
     for(new i; i < total; i++) {
         logger_debug(debugs[i], true);
+    }
+
+    // Set up the Requests HTTP client
+    new
+        endpoint[128],
+        auth[64];
+
+    GetSettingString("settings.ini", "endpoint", "http://localhost:7788", endpoint);
+    GetSettingString("settings.ini", "auth", "cunning_fox", auth);
+
+    // Create the requests client with the endpoint.
+    storeClient = RequestsClient(endpoint, RequestHeaders(
+        "Authorization", auth
+    ));
+    if(!IsValidRequestsClient(storeClient)) {
+        fatal("failed to create requests client");
     }
 
     return 0;

@@ -39,7 +39,7 @@ forward onPasswordChecked(playerid);
 public onPasswordChecked(playerid) {
     if(bcrypt_is_equal()) {
         dbg("player", "password check passed", _i("playerid", playerid));
-        signalReady(playerid, false);
+        onLoggedIn(playerid);
     } else {
         dbg("player", "password check failed", _i("playerid", playerid));
         // TODO: attempt counter for anti-bruteforce attack

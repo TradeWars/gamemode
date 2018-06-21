@@ -25,5 +25,5 @@ Dialog:onRegisterResponse(playerid, response, item, input[]) {
 forward onPasswordHashed(playerid);
 public onPasswordHashed(playerid) {
     dbg("player", "password hash complete", _i("playerid", playerid));
-    onLoggedIn(playerid);
+    onRegistered(playerid);
 }
