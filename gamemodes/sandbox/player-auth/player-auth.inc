@@ -16,18 +16,6 @@
 // Declarations
 // -
 
-static enum E_PLAYER {
-    E_PLAYER_PASS[BCRYPT_HASH_LENGTH],
-    Float:E_PLAYER_SPAWN_X,
-    Float:E_PLAYER_SPAWN_Y,
-    Float:E_PLAYER_SPAWN_Z,
-    Float:E_PLAYER_SPAWN_A,
-    Float:E_PLAYER_HEALTH,
-    Float:E_PLAYER_ARMOUR,
-    E_PLAYER_CASH,
-}
-
-
 // RequestsClient stores the client information for making requests such as the
 // endpoint and headers. Though in this example, we are no using any headers.
 new RequestsClient:storeClient;
@@ -35,7 +23,7 @@ new RequestsClient:storeClient;
 // BCRYPT_COST is used in bcrypt calls as the work factor for encryption.
 new const BCRYPT_COST = 12;
 
-static Data[MAX_PLAYERS][E_PLAYER];
+static PasswordHash[MAX_PLAYERS][BCRYPT_HASH_LENGTH];
 static bool:LoggedIn[MAX_PLAYERS];
 
 
@@ -85,21 +73,6 @@ stock StorePlayerAccount(playerid) {
     }
 }
 
-// GetPlayerSpawnPosition returns the player's loaded spawn position. This
-// should only ever really be called within `OnPlayerLogin`.
-stock GetPlayerSpawnPosition(playerid, &Float:x, &Float:y, &Float:z, &Float:a) {
-    if(!LoggedIn[playerid]) {
-        return 1;
-    }
-
-    x = Data[playerid][E_PLAYER_SPAWN_X];
-    y = Data[playerid][E_PLAYER_SPAWN_Y];
-    z = Data[playerid][E_PLAYER_SPAWN_Z];
-    a = Data[playerid][E_PLAYER_SPAWN_A];
-
-    return 0;
-}
-
 
 // -
 // Internal
@@ -130,15 +103,8 @@ hook OnScriptInit() {
 hook OnAccountLoaded(playerid, bool:exists, Node:node) {
     if(exists) {
         dbg("player", "existing account loaded", _i("playerid", playerid));
-        JsonGetString(node, "pass", Data[playerid][E_PLAYER_PASS], BCRYPT_HASH_LENGTH);
-        JsonGetFloat(node, "x", Data[playerid][E_PLAYER_SPAWN_X]);
-        JsonGetFloat(node, "y", Data[playerid][E_PLAYER_SPAWN_Y]);
-        JsonGetFloat(node, "z", Data[playerid][E_PLAYER_SPAWN_Z]);
-        JsonGetFloat(node, "a", Data[playerid][E_PLAYER_SPAWN_A]);
-        JsonGetFloat(node, "health", Data[playerid][E_PLAYER_HEALTH]);
-        JsonGetFloat(node, "armour", Data[playerid][E_PLAYER_ARMOUR]);
-        JsonGetInt(node, "cash", Data[playerid][E_PLAYER_CASH]);
-        promptLogin(playerid, Data[playerid][E_PLAYER_PASS]);
+        JsonGetString(node, "pass", PasswordHash[playerid], BCRYPT_HASH_LENGTH);
+        promptLogin(playerid, PasswordHash[playerid]);
     } else {
         dbg("player", "new account required", _i("playerid", playerid));
         promptRegister(playerid);
@@ -147,8 +113,12 @@ hook OnAccountLoaded(playerid, bool:exists, Node:node) {
     return Y_HOOKS_CONTINUE_RETURN_1;
 }
 
+hook OnAccountStore(playerid, Node:node) {
+    JsonSetString(node, "pass", PasswordHash[playerid], BCRYPT_HASH_LENGTH);
+}
+
 onLoggedIn(playerid) {
-    bcrypt_get_hash(Data[playerid][E_PLAYER_PASS]);
+    bcrypt_get_hash(PasswordHash[playerid]);
     accountStore(playerid);
     signalReady(playerid, true);
 }
@@ -158,28 +128,4 @@ onLoggedIn(playerid) {
 signalReady(playerid, bool:newPlayer) {
     LoggedIn[playerid] = true;
     CallLocalFunction("OnPlayerLogin", "dd", playerid, newPlayer);
-}
-
-hook OnAccountStore(playerid, Node:node) {
-    dbg("player", "account store request", _i("playerid", playerid));
-
-    GetPlayerPos(
-        playerid,
-        Data[playerid][E_PLAYER_SPAWN_X],
-        Data[playerid][E_PLAYER_SPAWN_Y],
-        Data[playerid][E_PLAYER_SPAWN_Z]
-    );
-    GetPlayerFacingAngle(playerid, Data[playerid][E_PLAYER_SPAWN_A]);
-    GetPlayerHealth(playerid, Data[playerid][E_PLAYER_HEALTH]);
-    GetPlayerArmour(playerid, Data[playerid][E_PLAYER_ARMOUR]);
-    Data[playerid][E_PLAYER_CASH] = GetPlayerMoney(playerid);
-
-    JsonSetString(node, "pass", Data[playerid][E_PLAYER_PASS], BCRYPT_HASH_LENGTH);
-    JsonSetFloat(node, "x", Data[playerid][E_PLAYER_SPAWN_X]);
-    JsonSetFloat(node, "y", Data[playerid][E_PLAYER_SPAWN_Y]);
-    JsonSetFloat(node, "z", Data[playerid][E_PLAYER_SPAWN_Z]);
-    JsonSetFloat(node, "a", Data[playerid][E_PLAYER_SPAWN_A]);
-    JsonSetFloat(node, "health", Data[playerid][E_PLAYER_HEALTH]);
-    JsonSetFloat(node, "armour", Data[playerid][E_PLAYER_ARMOUR]);
-    JsonSetInt(node, "cash", Data[playerid][E_PLAYER_CASH]);
 }

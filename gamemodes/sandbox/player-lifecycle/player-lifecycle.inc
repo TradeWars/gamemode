@@ -9,6 +9,19 @@
 
 
 // -
+// Declarations
+// -
+
+static enum E_SPAWN {
+    Float:E_SPAWN_X,
+    Float:E_SPAWN_Y,
+    Float:E_SPAWN_Z,
+    Float:E_SPAWN_A,
+}
+static Spawn[MAX_PLAYERS][E_SPAWN];
+
+
+// -
 // API
 // -
 
@@ -39,37 +52,56 @@ hook OnPlayerReady(playerid) {
     return Y_HOOKS_CONTINUE_RETURN_1;
 }
 
+// Load and Store
+
+hook OnAccountLoaded(playerid, bool:exists, Node:node) {
+    if(exists) {
+        JsonGetFloat(node, "x", Spawn[playerid][E_SPAWN_X]);
+        JsonGetFloat(node, "y", Spawn[playerid][E_SPAWN_Y]);
+        JsonGetFloat(node, "z", Spawn[playerid][E_SPAWN_Z]);
+        JsonGetFloat(node, "a", Spawn[playerid][E_SPAWN_A]);
+    } else {
+        Spawn[playerid][E_SPAWN_X] = DEFAULT_POS_X;
+        Spawn[playerid][E_SPAWN_Y] = DEFAULT_POS_Y;
+        Spawn[playerid][E_SPAWN_Z] = DEFAULT_POS_Z;
+        Spawn[playerid][E_SPAWN_A] = 0.0;
+    }
+}
+
+hook OnAccountStore(playerid, Node:node) {
+    dbg("player", "account store request", _i("playerid", playerid));
+
+    GetPlayerPos(
+        playerid,
+        Spawn[playerid][E_SPAWN_X],
+        Spawn[playerid][E_SPAWN_Y],
+        Spawn[playerid][E_SPAWN_Z]
+    );
+    GetPlayerFacingAngle(playerid, Spawn[playerid][E_SPAWN_A]);
+
+    JsonSetFloat(node, "x", Spawn[playerid][E_SPAWN_X]);
+    JsonSetFloat(node, "y", Spawn[playerid][E_SPAWN_Y]);
+    JsonSetFloat(node, "z", Spawn[playerid][E_SPAWN_Z]);
+    JsonSetFloat(node, "a", Spawn[playerid][E_SPAWN_A]);
+}
+
 hook OnPlayerLogin(playerid, bool:newPlayer) {
     spawnReadyPlayer(playerid, newPlayer);
 }
 
 spawnReadyPlayer(playerid, bool:newPlayer) {
-    new
-        Float:x,
-        Float:y,
-        Float:z,
-        Float:a;
-
-    if(newPlayer) {
-        // TODO: random spawns
-        x = DEFAULT_POS_X;
-        y = DEFAULT_POS_Y;
-        z = DEFAULT_POS_Z;
-    } else {
-        GetPlayerSpawnPosition(playerid, x, y, z, a);
-    }
-
     dbg("player", "player logged in",
         _i("playerid", playerid),
-        _f("x", x),
-        _f("y", y),
-        _f("z", z)
+        _i("newPlayer", newPlayer),
+        _f("x", Spawn[playerid][E_SPAWN_X]),
+        _f("y", Spawn[playerid][E_SPAWN_Y]),
+        _f("z", Spawn[playerid][E_SPAWN_Z])
     );
 
     TogglePlayerSpectating(playerid, false);
     TogglePlayerControllable(playerid, true);
-    SetPlayerPos(playerid, x, y, z);
-    SetPlayerFacingAngle(playerid, a);
+    SetPlayerPos(playerid, Spawn[playerid][E_SPAWN_X], Spawn[playerid][E_SPAWN_Y], Spawn[playerid][E_SPAWN_Z]);
+    SetPlayerFacingAngle(playerid, Spawn[playerid][E_SPAWN_A]);
     SetCameraBehindPlayer(playerid);
 
     CallLocalFunction("OnPlayerSpawned", "d", playerid);
