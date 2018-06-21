@@ -3,9 +3,12 @@
 static Map:SaveRequestToPlayerID;
 
 accountStore(playerid) {
-    new path[8 + MAX_PLAYER_NAME];
+    new
+        path[128],
+        name[MAX_PLAYER_NAME];
+
     GetPlayerName(playerid, path, MAX_PLAYER_NAME);
-    strins(path, "/users/", 0);
+    format(path, sizeof path, "/store/playerUpdate?name=%s", name);
 
     new Node:object = JsonObject();
     JsonToggleGC(object, false);
@@ -17,10 +20,10 @@ accountStore(playerid) {
         _s("path", path));
 
     new Request:id = RequestJSON(
-        storeClient,      // use the jsonstore client
-        path,             // use the player's name as the URL path
-        HTTP_METHOD_POST, // use the HTTP POST method
-        "onSaveData",     // call onSaveData when the request has finished
+        storeClient,       // use the jsonstore client
+        path,              // use the player's name as the URL path
+        HTTP_METHOD_PATCH, // use the HTTP PATCH method
+        "onSaveData",      // call onSaveData when the request has finished
         object
     );
     if(!IsValidRequest(id)) {

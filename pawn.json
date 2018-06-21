@@ -12,7 +12,9 @@
 		"Southclaws/pawn-requests:0.8.2",
 		"lassir/bcrypt-samp",
 		"Awsomedude/easyDialog",
-		"BigETI/pawn-map"
+		"BigETI/pawn-map",
+		"Southclaws/ScavengeSurviveCore",
+		"maddinat0r/sscanf"
 	],
 	"local": true,
 	"builds": [

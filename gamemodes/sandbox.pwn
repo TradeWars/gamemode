@@ -6,6 +6,7 @@
 
 #include <a_samp>
 #include <logger>
+#include <sscanf2>
 
 
 // -

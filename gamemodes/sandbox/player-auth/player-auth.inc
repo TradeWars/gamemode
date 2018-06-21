@@ -10,6 +10,8 @@
 #include <map>
 #include <easyDialog>
 #include <bcrypt>
+#include <ssc>
+#include <errors>
 
 
 // -
@@ -77,14 +79,17 @@ hook OnPlayerConnect(playerid) {
 }
 
 hook OnScriptInit() {
-    new endpoint[128];
-    GetSettingString("settings.ini", "endpoint", "", endpoint);
-    if(endpoint[0] == EOS) {
-        fatal("Could not load 'endpoint' from settings.ini");
-    }
+    new
+        endpoint[128],
+        auth[64];
+
+    GetSettingString("settings.ini", "endpoint", "http://localhost:7788", endpoint);
+    GetSettingString("settings.ini", "auth", "cunning_fox", auth);
 
     // Create the requests client with the endpoint.
-    storeClient = RequestsClient(endpoint);
+    storeClient = RequestsClient(endpoint, RequestHeaders(
+        "Authorization", auth
+    ));
     if(!IsValidRequestsClient(storeClient)) {
         fatal("failed to create requests client");
     }

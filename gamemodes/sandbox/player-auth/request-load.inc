@@ -2,11 +2,13 @@
 // player ID triggered which request.
 static Map:LoadRequestToPlayerID;
 
-
 accountLoad(playerid) {
-    new path[8 + MAX_PLAYER_NAME];
+    new
+        path[128],
+        name[MAX_PLAYER_NAME];
+
     GetPlayerName(playerid, path, MAX_PLAYER_NAME);
-    strins(path, "/users/", 0);
+    format(path, sizeof path, "/store/playerGet?name=%s", name);
 
     dbg("player", "loading account",
         _i("playerid", playerid),
@@ -35,7 +37,17 @@ public onLoadData(Request:id, E_HTTP_STATUS:status, Node:node) {
     new playerid = MAP_get_val_val(LoadRequestToPlayerID, _:id);
     MAP_remove_val(LoadRequestToPlayerID, _:id);
 
-    // jsonstore.io always uses OK status, even if the data is missing
+    new bool:success;
+    new Node:result;
+    new message[128];
+    new Error:e = ParseStatus(node, success, result, message);
+    if(IsError(e)) {
+        err("failed to parse status",
+            _s("message", message),
+            _E(e));
+        Handled();
+    }
+
     if(status != HTTP_STATUS_OK) {
         SendClientMessage(playerid, -1, "An unknown error occurred!");
         err("response status was not OK",
@@ -43,31 +55,7 @@ public onLoadData(Request:id, E_HTTP_STATUS:status, Node:node) {
             _i("status", _:status));
     }
 
-    // jsonstore.io always responds with an object with two fields:
-    // "ok"
-    // "result"
-    // ok is a bool that indicates if the document exists, so check we check it:
-    new bool:ok;
-    JsonGetBool(node, "ok", ok);
-    if(!ok) {
-        err("failed to get account, status not ok");
-    }
-
-    new Node:result = Node:-1; // invalid by default
-    if(JsonGetObject(node, "result", result) != 0) {
-        err("failed to get result from payload");
-    }
-
-    new bool:exists;
-    if(JsonNodeType(result) != JSON_NODE_OBJECT) {
-        dbg("player", "account does not exist", _i("playerid", playerid));
-        exists = false;
-    } else {
-        dbg("player", "account exists", _i("playerid", playerid), _i("result", _:result));
-        exists = true;
-    }
-
-    CallLocalFunction("OnAccountLoaded", "ddd", playerid, exists, _:result);
+    CallLocalFunction("OnAccountLoaded", "ddd", playerid, success, _:result);
 
     return;
 }
