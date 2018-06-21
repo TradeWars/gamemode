@@ -55,10 +55,16 @@ hook OnAccountLoaded(playerid, bool:exists, Node:node) {
     dbg("player", "account loaded", _i("playerid", playerid));
 
     if(exists) {
-        JsonGetFloat(node, "x", Spawn[playerid][E_SPAWN_X]);
-        JsonGetFloat(node, "y", Spawn[playerid][E_SPAWN_Y]);
-        JsonGetFloat(node, "z", Spawn[playerid][E_SPAWN_Z]);
-        JsonGetFloat(node, "a", Spawn[playerid][E_SPAWN_A]);
+        new Node:spawn;
+        new ret = JsonGetObject(node, "spawn", spawn);
+        if(ret) {
+            err("failed to read spawn field",
+                _i("ret", ret));
+        }
+        JsonGetFloat(spawn, "posx", Spawn[playerid][E_SPAWN_X]);
+        JsonGetFloat(spawn, "posy", Spawn[playerid][E_SPAWN_Y]);
+        JsonGetFloat(spawn, "posz", Spawn[playerid][E_SPAWN_Z]);
+        JsonGetFloat(spawn, "posa", Spawn[playerid][E_SPAWN_A]);
     } else {
         Spawn[playerid][E_SPAWN_X] = DEFAULT_POS_X;
         Spawn[playerid][E_SPAWN_Y] = DEFAULT_POS_Y;
@@ -78,10 +84,12 @@ hook OnAccountStore(playerid, Node:node) {
     );
     GetPlayerFacingAngle(playerid, Spawn[playerid][E_SPAWN_A]);
 
-    JsonSetFloat(node, "x", Spawn[playerid][E_SPAWN_X]);
-    JsonSetFloat(node, "y", Spawn[playerid][E_SPAWN_Y]);
-    JsonSetFloat(node, "z", Spawn[playerid][E_SPAWN_Z]);
-    JsonSetFloat(node, "a", Spawn[playerid][E_SPAWN_A]);
+    JsonSetObject(node, "spawn", JsonObject(
+        "posx", JsonFloat(Spawn[playerid][E_SPAWN_X]),
+        "posy", JsonFloat(Spawn[playerid][E_SPAWN_Y]),
+        "posz", JsonFloat(Spawn[playerid][E_SPAWN_Z]),
+        "posa", JsonFloat(Spawn[playerid][E_SPAWN_A])
+    ));
 }
 
 hook OnPlayerLogin(playerid, bool:newPlayer) {
