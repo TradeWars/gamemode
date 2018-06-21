@@ -57,7 +57,18 @@ Sections are separated by a decorated comment block that looks like this:
 ```
 
 Above a section title should be two blank lines and below should be a single
-blank line.
+blank line, for example:
+
+```pawn
+(some stuff)
+
+
+// -
+// Another Section
+// -
+
+(some other stuff)
+```
 
 Modules follow the following order of sections:
 
