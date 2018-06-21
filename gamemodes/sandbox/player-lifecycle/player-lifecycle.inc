@@ -22,6 +22,13 @@ static Spawn[MAX_PLAYERS][E_SPAWN];
 
 
 // -
+// Internal Modules
+// -
+
+#include "spawn"
+
+
+// -
 // API
 // -
 
@@ -55,6 +62,8 @@ hook OnPlayerReady(playerid) {
 // Load and Store
 
 hook OnAccountLoaded(playerid, bool:exists, Node:node) {
+    dbg("player", "account loaded", _i("playerid", playerid));
+
     if(exists) {
         JsonGetFloat(node, "x", Spawn[playerid][E_SPAWN_X]);
         JsonGetFloat(node, "y", Spawn[playerid][E_SPAWN_Y]);
@@ -69,7 +78,7 @@ hook OnAccountLoaded(playerid, bool:exists, Node:node) {
 }
 
 hook OnAccountStore(playerid, Node:node) {
-    dbg("player", "account store request", _i("playerid", playerid));
+    dbg("player", "account storing", _i("playerid", playerid));
 
     GetPlayerPos(
         playerid,
@@ -90,6 +99,15 @@ hook OnPlayerLogin(playerid, bool:newPlayer) {
 }
 
 spawnReadyPlayer(playerid, bool:newPlayer) {
+    if(newPlayer) {
+        getSpawnPosition(
+            Spawn[playerid][E_SPAWN_X],
+            Spawn[playerid][E_SPAWN_Y],
+            Spawn[playerid][E_SPAWN_Z],
+            Spawn[playerid][E_SPAWN_A]
+        );
+    }
+
     dbg("player", "player logged in",
         _i("playerid", playerid),
         _i("newPlayer", newPlayer),
