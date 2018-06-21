@@ -35,8 +35,8 @@ static Spawn[MAX_PLAYERS][E_SPAWN];
 hook OnPlayerReady(playerid) {
     dbg("player", "player ready", _i("playerid", playerid));
 
-    SetPlayerCameraPos(playerid, 50.0, 50.0, 50.0);
-    SetPlayerCameraLookAt(playerid, 0.0, 0.0, 0.0);
+    SetPlayerCameraPos(playerid, -1595.9017, 299.6661, 168.7846);
+    SetPlayerCameraLookAt(playerid, -1596.6104, 300.3773, 168.7446);
 
     // authentication can be disabled by building with NO_AUTH=1
     #if !defined NO_AUTH
