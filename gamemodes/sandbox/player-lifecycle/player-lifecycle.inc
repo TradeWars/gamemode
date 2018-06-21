@@ -4,29 +4,6 @@
 #include <class-selection>
 #include <player-auth>
 
-// y_hooks - this has to be last to generate new function names
-#include <YSI\y_hooks>
-
-
-// -
-// Declarations
-// -
-
-static enum E_SPAWN {
-    Float:E_SPAWN_X,
-    Float:E_SPAWN_Y,
-    Float:E_SPAWN_Z,
-    Float:E_SPAWN_A,
-}
-static Spawn[MAX_PLAYERS][E_SPAWN];
-
-
-// -
-// Internal Modules
-// -
-
-#include "spawn"
-
 
 // -
 // API
@@ -41,6 +18,19 @@ forward OnPlayerSpawned(playerid);
 // -
 // Internal
 // -
+
+#include "spawn"
+
+// y_hooks - this has to be last to generate new function names
+#include <YSI\y_hooks>
+
+static enum E_SPAWN {
+    Float:E_SPAWN_X,
+    Float:E_SPAWN_Y,
+    Float:E_SPAWN_Z,
+    Float:E_SPAWN_A,
+}
+static Spawn[MAX_PLAYERS][E_SPAWN];
 
 hook OnPlayerReady(playerid) {
     dbg("player", "player ready", _i("playerid", playerid));

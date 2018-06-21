@@ -73,17 +73,14 @@ blank line, for example:
 Modules follow the following order of sections:
 
 - First line should be a comment describing the module
-- External Packages - Installed packages
-- Internal Packages - Packages from within the project
-- Global Declarations - Declarations shared among modules or packages
-- Internal Modules - Files included with `#include ""` in the same directory
-- (y_hooks for this module must be included here instead of External Packages)
-- API - The function interface that other packages will use
-- Internal - Internal static functions
+- "External Packages" - Installed packages
+- "Internal Packages" - Packages from within the project
+- "Declarations" - `new` declarations shared globally
+- "API" - The function interface that other packages will use
+- "Internal" - Internal includes and `static` declarations and definitions
 
-Use this mnemonic to help you remember the order: **CEIGIYAI**
-
-The _Global Declarations_ section includes forward declarations for events.
+Use this mnemonic to help you remember the order: **EIDAI** or: "Einstein Isn't
+Damn Artificial Intelligence"
 
 Keeping all the exported functions and events near the top of the file makes it
 easier to understand what functionality a package provides.

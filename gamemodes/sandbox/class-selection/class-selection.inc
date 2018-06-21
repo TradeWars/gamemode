@@ -1,17 +1,29 @@
 // Class selection override
 
-#include <YSI\y_hooks>
+
+// -
+// Declarations
+// -
+
+const DEFAULT_POS_X = 300.0;
+const DEFAULT_POS_Y = 1800.0;
+const DEFAULT_POS_Z = 18.0;
 
 
-#define DEFAULT_POS_X (300.0)
-#define DEFAULT_POS_Y (1800.0)
-#define DEFAULT_POS_Z (18.0)
-
+// -
+// API
+// -
 
 // OnPlayerReady is called when a player is ready to be taken over by the script
 // again and their class selection override flow has completed.
 forward OnPlayerReady(playerid);
 
+
+// -
+// Internal
+// -
+
+#include <YSI\y_hooks>
 
 static bool:connecting[MAX_PLAYERS];
 
