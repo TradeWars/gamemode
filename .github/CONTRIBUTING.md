@@ -125,7 +125,7 @@ function() {
 ```
 
 However, if you can't shake the muscle memory or your editor forces you, Allman
-braces are allowed too:
+braces are fine too:
 
 ```pawn
 function()
@@ -155,15 +155,19 @@ default:
 ```pawn
 switch (variable) {
 case 0: {
+    // code...
     return 0;
 }
 case 1: {
+    // code...
     return 1;
 }
 case 2: {
+    // code...
     return 2;
 }
 default: {
+    // code...
     return -1;
 }
 }
