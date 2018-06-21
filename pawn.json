@@ -19,7 +19,7 @@
 		{
 			"name": "dev",
 			"includes": [
-				"gamemodes/sandbox/player-spawn",
+				"gamemodes/sandbox/player-lifecycle",
 				"gamemodes/sandbox/player-auth",
 				"gamemodes/sandbox/class-selection"
 			],
@@ -30,7 +30,7 @@
 		{
 			"name": "prod",
 			"includes": [
-				"gamemodes/sandbox/player-spawn",
+				"gamemodes/sandbox/player-lifecycle",
 				"gamemodes/sandbox/player-auth",
 				"gamemodes/sandbox/class-selection"
 			]

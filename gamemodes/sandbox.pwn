@@ -12,7 +12,7 @@
 // Internals
 // -
 
-#include <player-spawn>
+#include <player-lifecycle>
 
 
 // -

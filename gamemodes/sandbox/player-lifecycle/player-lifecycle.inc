@@ -77,7 +77,5 @@ spawnReadyPlayer(playerid, bool:newPlayer) {
 
 hook OnPlayerDisconnect(playerid, reason) {
     dbg("player", "player disconnect", _i("playerid", playerid));
-    if(LoggedIn[playerid]) {
-        accountStore(playerid);
-    }
+    StorePlayerAccount(playerid);
 }

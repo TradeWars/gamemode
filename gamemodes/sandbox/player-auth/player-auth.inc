@@ -80,7 +80,9 @@ stock LoadPlayerAccount(playerid) {
 // will call `OnAccountStore` so other packages can hook this and contribute
 // data to the player's account JSON object.
 stock StorePlayerAccount(playerid) {
-    accountStore(playerid);
+    if(LoggedIn[playerid]) {
+        accountStore(playerid);
+    }
 }
 
 // GetPlayerSpawnPosition returns the player's loaded spawn position. This
