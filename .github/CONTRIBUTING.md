@@ -7,7 +7,9 @@ setting up a development environment.
 
 ## Structure
 
-A **Module** is a single Pawn source file, with an `.inc` extension.
+### Terminology
+
+#### Packages
 
 A **Package** is a folder containing one or more **Modules**.
 
@@ -18,6 +20,10 @@ package may also _export_ functions. Here, _export_ simply means "to make
 available". `static` should be used to indicate a function only used within the
 immediate **module**.
 
+#### Modules
+
+A **Module** is a single Pawn source file, with an `.inc` extension.
+
 A **Package** may consist of multiple **Modules**, therefore some internal
 functions can not use `static` if they are used across different modules in the
 same package. When this occurs, functions must use a name style to indicate that
@@ -25,6 +31,53 @@ they are _unexported_. See the [function style](#Functions) section for details.
 
 Modules must never expose global variables. Functions must be used instead with,
 where appropriate, bounds checking and validity checks.
+
+### Package Structure
+
+In short, follow the
+[Pawn Package](https://github.com/Southclaws/sampctl/wiki/Packages) guidelines.
+
+Packages must have a `README.md` file and an "entry point". Internal packages
+don't _need_ a `pawn.json` but it can help for testing.
+
+Packages must export all their interface through a single file, the "Entry
+Module" or "Entry Script". This module must have the same name as the directory.
+
+### Module Structure
+
+Within an **Entry Module** for a package, there is an order to how sections of
+the file are laid out.
+
+Sections are separated by a decorated comment block that looks like this:
+
+```pawn
+// -
+// Section Title
+// -
+```
+
+Above a section title should be two blank lines and below should be a single
+blank line.
+
+Modules follow the following order of sections:
+
+- First line should be a comment describing the module
+- External Packages - Installed packages
+- Internal Packages - Packages from within the project
+- Global Declarations - Declarations shared among modules or packages
+- Internal Modules - Files included with `#include ""` in the same directory
+- (y_hooks for this module must be included here instead of External Packages)
+- API - The function interface that other packages will use
+- Internal - Internal static functions
+
+The _Global Declarations_ section includes forward declarations for events.
+
+Keeping all the exported functions and events near the top of the file makes it
+easier to understand what functionality a package provides.
+
+Non-entry modules (internal modules that are only included by the entry module)
+must only declare private and non-exported functions and variables. The "Entry"
+module is named that way for a reason.
 
 ### Navigating
 
