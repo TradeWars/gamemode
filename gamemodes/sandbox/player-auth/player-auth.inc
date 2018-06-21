@@ -23,6 +23,8 @@ new RequestsClient:storeClient;
 // BCRYPT_COST is used in bcrypt calls as the work factor for encryption.
 new const BCRYPT_COST = 12;
 
+static PasswordHash[MAX_PLAYERS][BCRYPT_HASH_LENGTH];
+static bool:LoggedIn[MAX_PLAYERS];
 
 // -
 // API
@@ -67,9 +69,6 @@ stock StorePlayerAccount(playerid) {
 #include "dialog-register"
 #include "dialog-login"
 #include <YSI\y_hooks>
-
-static PasswordHash[MAX_PLAYERS][BCRYPT_HASH_LENGTH];
-static bool:LoggedIn[MAX_PLAYERS];
 
 hook OnPlayerConnect(playerid) {
     dbg("player", "player connect", _i("playerid", playerid));

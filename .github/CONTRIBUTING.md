@@ -75,9 +75,9 @@ Modules follow the following order of sections:
 - First line should be a comment describing the module
 - "External Packages" - Installed packages
 - "Internal Packages" - Packages from within the project
-- "Declarations" - `new` declarations shared globally
+- "Declarations" - `new` and `static` variable declarations
 - "API" - The function interface that other packages will use
-- "Internal" - Internal includes and `static` declarations and definitions
+- "Internal" - Internal includes, `static` and non-exported function definitions
 
 Use this mnemonic to help you remember the order: **EIDAI** or: "Einstein Isn't
 Damn Artificial Intelligence"

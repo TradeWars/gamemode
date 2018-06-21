@@ -5,9 +5,9 @@
 // Declarations
 // -
 
-const DEFAULT_POS_X = 300.0;
-const DEFAULT_POS_Y = 1800.0;
-const DEFAULT_POS_Z = 18.0;
+const Float:DEFAULT_POS_X = 300.0;
+const Float:DEFAULT_POS_Y = 1800.0;
+const Float:DEFAULT_POS_Z = 18.0;
 
 
 // -
