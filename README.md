@@ -31,7 +31,7 @@ sampctl package ensure
 This doesn't download the dependencies so you must run `package ensure` after
 cloning.
 
-### First Build
+### Build The Package
 
 Once you have the code, make sure your terminal/editor is open to the project
 directory then run a first build to make sure everything is working:
@@ -43,43 +43,29 @@ sampctl package build
 The `master` branch should never have errors but may include warnings from time
 to time.
 
-### First Run
-
-Now you've built the project, you must run the server once then close it to
-automatically create any necessary files in `scriptfiles/`.
-
-```bash
-sampctl package run
-# CTRL+C to close after initialisation has finished
-```
-
-This will, among other things, create the `settings.ini` file with default
-values inside the `scriptfiles/` directory.
-
 ### Set Up Storage
 
-This project currently uses [jsonstore.io](https://jsonstore.io) to store data.
-Head over to the jsonstore.io website and click `Copy` to copy the endpoint to
-the clipboard. You should get a long URL like
-`https://www.jsonstore.io/5b91329ab4cb74da82490f9b6e8ca2542620c067507afd9af3164ca4c17033fe`.
+This project uses a custom backend for storing data. That project is available
+[here](https://github.com/Southclaws/ScavengeSurviveCore) and you can simply
+download one of the release binaries and run it.
 
-Open up `scriptfiles/settings.ini` and paste the URL as the value to the
-`endpoint` key.
+By default, when you run the `ssc` executable, it will launch in "temporary
+mode" which is a no-configuration setup and is instantly listening for
+connections and will store data in-memory with no database. This allows you to
+get up and running very quickly.
 
-You should now have something like:
+The default listen address is `:7788` so you should be able to access
+`http://localhost:7788` via `curl` with the header `Authorization: cunning_fox`
+which is the default temporary auth string.
 
-```ini
-...
-endpoint=https://www.jsonstore.io/5b91329ab4cb74da82490f9b6e8ca2542620c067507afd9af3164ca4c17033fe
-...
-```
-
-(There will likely be a lot more settings above and below the `endpoint` key.)
-
-### Run
+### Run The Package
 
 Now you can run the server with `sampctl package run` and connect to it via the
-SA:MP client.
+SA:MP client. When you connect for the first time, the game server will submit a
+HTTP GET request to `http://localhost:7788/store/playerGet?name=<your username>`
+which you should see on the `ssc` process log. If all goes well, you should see
+two messages: one to acknowledge the request and another that logs the response
+data.
 
 ### Debug Logging
 
