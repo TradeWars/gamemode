@@ -17,7 +17,8 @@
 		"maddinat0r/sscanf",
 		"ScavengeSurvive/item",
 		"Southclaws/pawn-fsutil",
-		"oscar-broman/strlib"
+		"oscar-broman/strlib",
+		"JaTochNietDan/SA-MP-FileManager"
 	],
 	"local": true,
 	"builds": [
@@ -30,7 +31,8 @@
 				"gamemodes/sandbox/item-spawns",
 				"gamemodes/sandbox/player-lifecycle",
 				"gamemodes/sandbox/player-auth",
-				"gamemodes/sandbox/class-selection"
+				"gamemodes/sandbox/class-selection",
+				"gamemodes/sandbox/vehicles"
 			]
 		},
 		{
@@ -42,7 +44,8 @@
 				"gamemodes/sandbox/item-spawns",
 				"gamemodes/sandbox/player-lifecycle",
 				"gamemodes/sandbox/player-auth",
-				"gamemodes/sandbox/class-selection"
+				"gamemodes/sandbox/class-selection",
+				"gamemodes/sandbox/vehicles"
 			],
 			"constants": {
 				"NO_AUTH": "1"
