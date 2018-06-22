@@ -79,8 +79,11 @@ Modules follow the following order of sections:
 - "API" - The function interface that other packages will use
 - "Internal" - Internal includes, `static` and non-exported function definitions
 
-Use this mnemonic to help you remember the order: **EIDAI** or: "Einstein Isn't
-Damn Artificial Intelligence"
+Use these mnemonics to help you remember the order: **EIDAI**
+
+- "Einstein Isn't Damn Artificial Intelligence"
+- "Everybody Is Definitely An Insect"
+- "Ever Imagined Disappearing Away Instantly"
 
 Keeping all the exported functions and events near the top of the file makes it
 easier to understand what functionality a package provides.
