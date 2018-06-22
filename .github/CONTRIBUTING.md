@@ -40,8 +40,12 @@ In short, follow the
 Packages must have a `README.md` file and an "entry point". Internal packages
 don't _need_ a `pawn.json` but it can help for testing.
 
-Packages must export all their interface through a single file, the "Entry
-Module" or "Entry Script". This module must have the same name as the directory.
+Packages may export their API through a single file, the "Entry Module" or
+"Entry Script". If so, this module must have the same name as the directory.
+Sometimes packages may contain multiple files that contain exported API
+(functions, events) - this is fine for larger packages that provide lots of
+functionality however try to keep the interface part of a package as small as
+possible.
 
 ### Module Structure
 
