@@ -114,6 +114,15 @@ Contributions should adhere to the style guide. This guide is loosely based on
 the C language with some changes to braces and changes to naming that fit the
 Pawn language a bit better.
 
+### Line Length
+
+Lines should be "soft capped" at column 80. Comments should always wrap at
+column 80 however code _may_ exceed this limit if it's only a few characters.
+
+Always wrap long function calls or long function declarations.
+
+Strings are fine unless they are ridiculously long, in which case wrap with `\`.
+
 ### Braces
 
 K&R braces are preferred:
@@ -261,6 +270,26 @@ Pre-Processor definitions (constant definitions) must also use
 
 This helps differentiate between variables and constants as well as functions
 and macros.
+
+### Documentation
+
+Always document exported functions with a simple line comment in the format
+`// FunctionName does X, Y and Z and returns A` where the first word is the name
+of the function itself followed by a brief description of what it does. No need
+to waste time describing each individual parameter. For example:
+
+```pawn
+// LoadPlayerAccount is called to initiate the account load process. This
+// function will trigger HTTP calls to get player data, it will display dialogs
+// to the player and eventually, once the process has completed, the event
+// `OnPlayerLogin` is emitted on success. On failure, the player is kicked.
+stock Error:LoadPlayerAccount(playerid) {
+    // code...
+}
+```
+
+Each package should have a `README.md` and, if necessary, each module should
+have a comment on the very first line describing what that module provides.
 
 ## Adding Things
 
