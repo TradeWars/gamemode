@@ -103,6 +103,10 @@ hook OnSSCPlayerGet(playerid, bool:success, message[], Error:error, Node:result)
                 _i("ret", ret));
         }
 
+        if(JsonGetString(account, "_id", PlayerObjectID[playerid], MAX_OBJECT_ID_LEN)) {
+            err("failed to read account._id field");
+        }
+
         if(JsonGetString(account, "pass", PasswordHash[playerid], BCRYPT_HASH_LENGTH)) {
             err("failed to read account.pass field");
         }

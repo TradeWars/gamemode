@@ -4,12 +4,25 @@
 // -
 
 
+#include <a_samp>
+
+
+// -
+// Compiletime Configuration
+// -
+
+#undef MAX_PLAYERS
+#define MAX_PLAYERS (32)
 #define MAX_ITEM_TYPE (ItemType:300)
 #define MAX_BUTTON (Button:32768)
 #define MAX_ITEM (Item:32768)
 #define MAX_CONTAINER_SLOTS (100)
 
-#include <a_samp>
+
+// -
+// External Packages
+//
+
 #include <logger>
 #include <sscanf2>
 
