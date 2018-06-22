@@ -14,13 +14,20 @@
 		"Awsomedude/easyDialog",
 		"BigETI/pawn-map",
 		"Southclaws/ScavengeSurviveCore",
-		"maddinat0r/sscanf"
+		"maddinat0r/sscanf",
+		"ScavengeSurvive/item",
+		"Southclaws/pawn-fsutil",
+		"oscar-broman/strlib"
 	],
 	"local": true,
 	"builds": [
 		{
 			"name": "dev",
 			"includes": [
+				"gamemodes/sandbox/utils",
+				"gamemodes/sandbox/gamemode-core",
+				"gamemodes/sandbox/world",
+				"gamemodes/sandbox/item-spawns",
 				"gamemodes/sandbox/player-lifecycle",
 				"gamemodes/sandbox/player-auth",
 				"gamemodes/sandbox/class-selection"
@@ -29,6 +36,10 @@
 		{
 			"name": "dev-noauth",
 			"includes": [
+				"gamemodes/sandbox/utils",
+				"gamemodes/sandbox/gamemode-core",
+				"gamemodes/sandbox/world",
+				"gamemodes/sandbox/item-spawns",
 				"gamemodes/sandbox/player-lifecycle",
 				"gamemodes/sandbox/player-auth",
 				"gamemodes/sandbox/class-selection"
