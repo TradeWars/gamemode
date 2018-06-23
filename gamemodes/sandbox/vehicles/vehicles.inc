@@ -94,7 +94,7 @@ stock DestroyVehicleEx(vehicleid)
 #include "vehicles-spawn"
 #include "vehicles-utils"
 #include "vehicles-engine"
-#include "vehicles-lock"
+//#include "vehicles-lock"
 
 registerVehicleData(vehicleid, Float:x, Float:y, Float:z, Float:rotation)
 {
