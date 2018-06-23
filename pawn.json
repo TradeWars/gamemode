@@ -16,7 +16,7 @@
 		"Southclaws/ScavengeSurviveCore:18w25.6.12",
 		"maddinat0r/sscanf",
 		"ScavengeSurvive/item:1.10.4",
-		"Southclaws/pawn-fsutil:1.0.3",
+		"Southclaws/pawn-fsutil:1.0.4",
 		"oscar-broman/strlib"
 	],
 	"local": true,
