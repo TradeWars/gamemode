@@ -1,6 +1,12 @@
 // Utility functions for vehicles
 
 // -
+// External Packages
+// -
+
+#include <YSI\y_iterate>
+
+// -
 // Declaration
 // -
 
@@ -55,7 +61,7 @@ stock GetVehicleParameter(vehicleid, parameter)
 // the state of all parameters. This function returns 1 when executed
 // succsesfully, and 0 when it fails to execute (This means the vehicle
 // does not exist).
-stock SetVehicleParameter(vehicleid, parameter, bool:value)
+stock SetVehicleParameter(vehicleid, parameter, value)
 {
 	new engine, lights, alarm, doors, bonnet, boot, objective;
 	GetVehicleParamsEx(vehicleid, engine, lights, alarm, doors, bonnet, boot, objective);
@@ -82,11 +88,14 @@ stock SetVehicleParameter(vehicleid, parameter, bool:value)
 }
 
 // Toggles the state of the parameter specified. If the state was previously
-// 0, it would now be 1 and vice versa. This function returns 1 if succeeded,
-// and 0 if it failed (This means the vehicle does not exist).
+// 0, it would now be 1 and vice versa. This function returns the new state
+// of the vehicle parameter.
 stock ToggleVehicleParameter(vehicleid, parameter)
 {
-	return SetVehicleParameter(vehicleid, parameter, !GetVehicleParameter(vehicleid, parameter));
+	new newState = !GetVehicleParameter(vehicleid, parameter);
+	SetVehicleParameter(vehicleid, parameter, newState);
+
+	return newState;
 }
 
 // Returns a string containing a license plate "number". It is constructed
@@ -104,4 +113,24 @@ stock GenerateLicensePlateNumber()
 	}
 
 	return licensePlateNumber;
+}
+
+// Returns the vehicleid of a nearby vehicle within range of the players
+// position. Returns -1 if none were found.
+stock GetPlayerNearbyVehicle(playerid, Float:range = 3.0)
+{
+	new Float:px, Float:py, Float:pz;
+	GetPlayerPos(playerid, px, py, pz);
+
+	new nearbyVehicle = -1;
+	foreach(new vehicleid : Vehicle)
+	{
+		if(GetVehicleDistanceFromPoint(vehicleid, px, py, pz) <= range)
+		{
+			nearbyVehicle = vehicleid;
+			break;
+		}
+	}
+
+	return nearbyVehicle;
 }

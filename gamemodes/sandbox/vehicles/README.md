@@ -33,7 +33,7 @@ all parameters.
 * **-1** if the parameter hasn't been set before
 * **-2** if the parameter specified is invalid
 
-## `SetVehicleParameter (vehicleid, parameter, bool:value)`
+## `SetVehicleParameter (vehicleid, parameter, value)`
 
 This function sets the state of an individual parameter, rather than
 setting the state of all parameters.
@@ -48,13 +48,20 @@ This function toggles the state of the parameter specified. If the state was
 previously 0, it would now be 1 and vice versa.
 
 **This function returns :**
-* **1** if it executed succsesfully
-* **0** if it fails to execute (This means the vehicle does not exist)
+* The new state of the vehicle parameter specified. (0/1)
 
 ## `GenerateLicensePlateNumber ()`
 
 This function returns a string containing a license plate "number". It is
 constructed of 7 random numbers and characters.
+
+## `GetPlayerNearbyVehicle (playerid, Float:range = 3.0)`
+
+Returns the vehicleid of a nearby vehicle within range of the players position.
+
+**This function returns :**
+* The vehicleid of a nearby vehicle.
+* **-1** if none were found.
 
 # Global declarations
 

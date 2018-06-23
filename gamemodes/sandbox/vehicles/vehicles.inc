@@ -93,6 +93,8 @@ stock DestroyVehicleEx(vehicleid)
 
 #include "vehicles-spawn"
 #include "vehicles-utils"
+#include "vehicles-engine"
+#include "vehicles-lock"
 
 registerVehicleData(vehicleid, Float:x, Float:y, Float:z, Float:rotation)
 {
@@ -103,6 +105,11 @@ registerVehicleData(vehicleid, Float:x, Float:y, Float:z, Float:rotation)
         vehicleData[vehicleid][VEHICLE_SPAWN_Z] = z;
         vehicleData[vehicleid][VEHICLE_SPAWN_R] = rotation;
         
+        // Set all vehicle parameters to false by default in order
+        // to prevent GetVehicleParameter from returning -1.
+        // Due to this, the engine must be handled by the script.
+        SetVehicleParamsEx(vehicleid, 0, 0, 0, 0, 0, 0, 0);
+
         SetVehicleNumberPlate(vehicleid, GenerateLicensePlateNumber());
 
         dbg("vehicle", "vehicle created", _i("vehicleid", vehicleid));
