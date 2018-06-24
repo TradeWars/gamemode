@@ -4,7 +4,8 @@
 # This is mainly for running Docker tasks and database setup scripts.
 # -
 
-VERSION := $(shell date +%yw%W.%w.%H)
+VERSION := $(shell cat VERSION)
+NEW_VERSION := $(shell date +%yw%W.%w.%H)
 -include .env
 
 
@@ -17,3 +18,6 @@ build:
 run:
 	docker run \
 		southclaws/samp-sandbox:$(VERSION) \
+
+release:
+	echo $(NEW_VERSION) > VERSION
