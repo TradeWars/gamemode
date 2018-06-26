@@ -5,7 +5,7 @@
 # -
 
 VERSION := $(shell cat VERSION)
-NEW_VERSION := $(shell date +%yw%W.%w.%H)
+NEW_VERSION := $(shell date -u +%yw%W.%w.%H)
 -include .env
 
 
