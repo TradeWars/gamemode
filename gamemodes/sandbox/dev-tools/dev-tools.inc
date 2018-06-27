@@ -78,6 +78,32 @@ CMD:tpcoords(playerid, params[])
 }
 alias:tpcoords("coord", "coords");
 
+// Teleports a player to the specified interior.
+// Usage : /tpinterior [interiorid] [playerid]
+CMD:tpinterior(playerid, params[])
+{
+    new interiorid, receiverid;
+    if(!sscanf(params, "iU(-1)", interiorid, receiverid))
+    {
+        if(receiverid == -1) // If the playerid parameter hasn't been specified.
+        {
+            receiverid = playerid;
+        }
+
+        if(!SetPlayerInterior(receiverid, interiorid))
+        {
+            SendClientMessage(playerid, COLOR_ERROR, " >  The specified player is not connected to the server!");
+        }
+    }
+    else
+    {
+        SendClientMessage(playerid, COLOR_ERROR, " >  USAGE: /tpinterior [interiorid] [playerid]");
+    }
+
+    return 1;
+}
+alias:tpinterior("tpint", "gotointerior", "gotoint");
+
 // Gives a player the specified weapon.
 // Usage : /weapon [playerid] [weaponid] [ammo = 50]
 CMD:weapon(playerid, params[])
@@ -123,6 +149,11 @@ CMD:createveh(playerid, params[])
         if(vehicleid != INVALID_VEHICLE_ID)
         {
             PutPlayerInVehicle(playerid, vehicleid, 0);
+
+            new interiorid = GetPlayerInterior(playerid);
+            new virtualworld = GetPlayerVirtualWorld(playerid);
+            LinkVehicleToInterior(vehicleid, interiorid);
+            SetVehicleVirtualWorld(vehicleid, virtualworld);
         }
         else
         {
