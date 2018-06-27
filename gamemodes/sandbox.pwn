@@ -18,6 +18,15 @@
 #define MAX_ITEM (Item:32768)
 #define MAX_CONTAINER_SLOTS (100)
 
+// -
+// Colors
+// -
+
+#define COLOR_ERROR     0xF74A47FF
+#define COLOR_INFO      0x2ABAFCFF
+
+#define SCOLOR_ERROR    "{F74A47}"
+#define SCOLOR_INFO     "{2ABAFC}"
 
 // -
 // External Packages
@@ -43,6 +52,10 @@ new RequestsClient:storeClient;
 #include <gamemode-core>
 #include <world>
 #include <player-lifecycle>
+
+#if defined DEV_BUILD
+    #include <dev-tools>
+#endif
 
 
 // -

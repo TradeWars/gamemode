@@ -17,7 +17,8 @@
 		"maddinat0r/sscanf",
 		"ScavengeSurvive/item:1.10.4",
 		"Southclaws/pawn-fsutil:1.0.4",
-		"oscar-broman/strlib"
+		"oscar-broman/strlib",
+		"UrShadow/Pawn.CMD"
 	],
 	"local": true,
 	"builds": [
@@ -30,8 +31,12 @@
 				"gamemodes/sandbox/item-spawns",
 				"gamemodes/sandbox/player-lifecycle",
 				"gamemodes/sandbox/player-auth",
-				"gamemodes/sandbox/class-selection"
-			]
+				"gamemodes/sandbox/class-selection",
+				"gamemodes/sandbox/dev-tools"
+			],
+			"consants": {
+				"DEV_BUILD": "1"
+			}
 		},
 		{
 			"name": "dev-noauth",
@@ -42,9 +47,11 @@
 				"gamemodes/sandbox/item-spawns",
 				"gamemodes/sandbox/player-lifecycle",
 				"gamemodes/sandbox/player-auth",
-				"gamemodes/sandbox/class-selection"
+				"gamemodes/sandbox/class-selection",
+				"gamemodes/sandbox/dev-tools"
 			],
 			"constants": {
+				"DEV_BUILD": "1",
 				"NO_AUTH": "1"
 			}
 		},
