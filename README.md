@@ -2,9 +2,22 @@
 
 [![sampctl](https://shields.southcla.ws/badge/sampctl-samp--sandbox-2f2f2f.svg?style=for-the-badge)](https://github.com/Southclaws/samp-sandbox)
 
-A work in progress sandbox gamemode...
+Sandbox (working title) is a free-roam, item-collection and combat oriented
+SA:MP gamemode.
 
-Come back later when it's more finished!
+The primary objective of the game is to make **money**. The world contains
+randomly spawned **items** at over 8,000 locations, some harder to find than
+others. These items range from common household junk to rare and unique
+trinkets. A network of **vendors** across the world will pay good money for
+quality items. Prices will fluctuate, driven by a simulated economy.
+
+If prices are pretty low for your **Green Tinted, Engraved, 7.62mm AK-47** then
+you can trade it with another player for another item you might make a quick
+profit off. It would suck if the price of that AK-47 shot up the next day...
+
+This gamemode aims to bring together the economic aspects of **Roleplay** and
+the item hoarding of **Scavenge and Survive** with a side order of free-roam,
+light RP and fun.
 
 ## Usage
 

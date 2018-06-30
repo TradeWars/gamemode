@@ -5,20 +5,21 @@
 	"output": "gamemodes/sandbox.amx",
 	"dependencies": [
 		"sampctl/samp-stdlib",
-		"Southclaws/samp-logger",
-		"Southclaws/pawn-errors",
+		"Southclaws/samp-logger:1.2.6",
+		"Southclaws/pawn-errors:1.2.1",
 		"pawn-lang/YSI-Includes",
-		"ScavengeSurvive/settings",
+		"ScavengeSurvive/settings:1.0.1",
 		"Southclaws/pawn-requests:0.8.2",
 		"lassir/bcrypt-samp",
-		"Awsomedude/easyDialog",
+		"Awsomedude/easyDialog:2.0",
 		"BigETI/pawn-map",
-		"Southclaws/ScavengeSurviveCore",
+		"Southclaws/ScavengeSurviveCore:18w25.6.12",
 		"maddinat0r/sscanf",
-		"ScavengeSurvive/item",
-		"Southclaws/pawn-fsutil",
-		"oscar-broman/strlib",
 		"JaTochNietDan/SA-MP-FileManager"
+		"ScavengeSurvive/item:1.10.4",
+		"Southclaws/pawn-fsutil:1.0.4",
+		"oscar-broman/strlib",
+		"UrShadow/Pawn.CMD"
 	],
 	"local": true,
 	"builds": [
@@ -32,8 +33,13 @@
 				"gamemodes/sandbox/player-lifecycle",
 				"gamemodes/sandbox/player-auth",
 				"gamemodes/sandbox/class-selection",
+				"gamemodes/sandbox/dev-tools",
 				"gamemodes/sandbox/vehicles"
 			]
+			],
+			"consants": {
+				"DEV_BUILD": "1"
+			}
 		},
 		{
 			"name": "dev-noauth",
@@ -45,9 +51,11 @@
 				"gamemodes/sandbox/player-lifecycle",
 				"gamemodes/sandbox/player-auth",
 				"gamemodes/sandbox/class-selection",
+				"gamemodes/sandbox/dev-tools",
 				"gamemodes/sandbox/vehicles"
 			],
 			"constants": {
+				"DEV_BUILD": "1",
 				"NO_AUTH": "1"
 			}
 		},

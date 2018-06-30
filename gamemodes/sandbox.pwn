@@ -34,6 +34,15 @@
 #define RELEASED(%0) \
 	(((newkeys & (%0)) != (%0)) && ((oldkeys & (%0)) == (%0)))
 
+// -
+// Colors
+// -
+
+#define COLOR_ERROR     0xF74A47FF
+#define COLOR_INFO      0x2ABAFCFF
+
+#define SCOLOR_ERROR    "{F74A47}"
+#define SCOLOR_INFO     "{2ABAFC}"
 
 // -
 // External Packages
@@ -60,6 +69,10 @@ new RequestsClient:storeClient;
 //#include <world>
 #include <player-lifecycle>
 #include <vehicles>
+
+#if defined DEV_BUILD
+    #include <dev-tools>
+#endif
 
 
 // -
