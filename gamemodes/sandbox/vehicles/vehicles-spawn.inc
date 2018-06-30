@@ -61,7 +61,7 @@ loadVehiclesFromFile(file[])
 
     if(!fexist(file))
     {
-        err("file does not exist", _s("directory", file));f
+        err("file does not exist", _s("directory", file));
         return 0;
     }
 

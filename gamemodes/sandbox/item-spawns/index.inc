@@ -1,5 +1,4 @@
-// loot-index provides a way of spawning random items according to rarity rules
-// which can be added at runtime.
+// loot-index provides a framefork for defining rarity rules to item spawns
 
 
 #include <YSI\y_hooks>

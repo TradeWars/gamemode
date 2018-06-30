@@ -2,5 +2,6 @@
 
 #define DIRECTORY_ITEM_SPAWNS "item-spawns/"
 
-#include "loot-index"
-#include "loot-loader"
+#include "index"
+#include "index-loader"
+#include "item-loader"

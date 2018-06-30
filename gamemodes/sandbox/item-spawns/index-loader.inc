@@ -1,5 +1,4 @@
-// loot-loader handles loading item spawn rates from files and assigning them to
-// loot-index data structures.
+// loot-loader handles loading item spawn rates from files
 
 // -
 // External Packages
