@@ -4,7 +4,7 @@
 // External packages
 // -
 
-#include <filemanager>
+#include <fsutil>
 #include <sscanf2>
 #include <settings>
 
@@ -26,43 +26,42 @@ hook OnGameModeInit()
 
 loadVehiclesFromDirectory(directory[])
 {
-    new dir:directoryHandle = dir_open(directory),
-        itemName[40], itemType,
-        path[256];
+    new
+        Directory:directoryHandle = OpenDir(directory),
+        itemName[256],
+        ENTRY_TYPE:itemType;
 
-    if(!directoryHandle)
+    if(directoryHandle == Directory:-1)
     {
-        err("[loadVehiclesFromDirectory] Failed to read from directory!", _s("directory", directory));        
+        err("failed to read from directory", _s("directory", directory));
         return 0;
     }
 
-    while(dir_list(directoryHandle, itemName, itemType))
+    while(DirNext(directoryHandle, itemType, itemName))
     {
-        if(itemType == FM_DIR && strcmp(itemName, "..") && strcmp(itemName, ".") && strcmp(itemName, "_"))
+        if(itemType == E_DIRECTORY)
         {
-            path[0] = EOS;
-            format(path, sizeof(path), "%s/%s/", directory, itemName);
-            loadVehiclesFromDirectory(path);
+            loadVehiclesFromDirectory(itemName);
         }
-        else if(itemType == FM_FILE)
+        else if(itemType == E_REGULAR)
         {
-            path[0] = EOS;
-            format(path, sizeof(path), "%s/%s", directory, itemName);
-            loadVehiclesFromFile(path);
+            // start from index 12 to trim "scriptfiles/"
+            // TODO: rewrite this when fsutil gets full path IO functions
+            loadVehiclesFromFile(itemName[12]);
         }
     }
-            
-    dir_close(directoryHandle);
+
+    CloseDir(directoryHandle);
     return 1;
 }
 
 loadVehiclesFromFile(file[])
 {
-    new File:fileHandle = f_open(file);
+    new File:fileHandle = fopen(file);
 
-    if(!file_exists(file))
+    if(!fexist(file))
     {
-        err("[loadVehiclesFromFile] File does not exist!", _s("directory", file));
+        err("file does not exist", _s("directory", file));f
         return 0;
     }
 
@@ -75,7 +74,7 @@ loadVehiclesFromFile(file[])
         vColor1,
         vColor2;
 
-    while(f_read(fileHandle, line, sizeof(line)))
+    while(fread(fileHandle, line, sizeof(line)))
     {
         if(!sscanf(line, "p<,>iffffip<;>i{s[128]}", vModel, vPosX, vPosY, vPosZ, vRotation, vColor1, vColor2))
         {
@@ -96,6 +95,6 @@ loadVehiclesFromFile(file[])
         }
     }
 
-    f_close(fileHandle);
+    fclose(fileHandle);
     return 1;
 }
