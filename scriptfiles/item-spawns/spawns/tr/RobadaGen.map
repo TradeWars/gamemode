@@ -1,0 +1,33 @@
+CreateStaticLootSpawn(-2084.18799, 2308.36963, 22.98837,	GetLootIndexFromName("world_civilian"), 20.0);
+CreateStaticLootSpawn(-1957.37402, 2391.17017, 48.48126,	GetLootIndexFromName("world_civilian"), 20.0);
+CreateStaticLootSpawn(-1312.63354, 2532.77979, 86.72825,	GetLootIndexFromName("world_civilian"), 20.0);
+CreateStaticLootSpawn(-1289.87146, 2510.56812, 86.01758,	GetLootIndexFromName("world_civilian"), 20.0);
+CreateStaticLootSpawn(-1333.11206, 2527.40259, 86.05123,	GetLootIndexFromName("world_civilian"), 20.0);
+CreateStaticLootSpawn(-1803.35120, 2038.16907, 8.58781,		GetLootIndexFromName("world_civilian"), 20.0);
+CreateStaticLootSpawn(-1830.81348, 2043.56677, 7.56844,		GetLootIndexFromName("world_civilian"), 20.0);
+CreateStaticLootSpawn(-1431.80713, 2173.01807, 49.02753,	GetLootIndexFromName("world_civilian"), 20.0);
+CreateStaticLootSpawn(-1497.36926, 1964.75525, 47.40289,	GetLootIndexFromName("world_civilian"), 20.0);
+CreateStaticLootSpawn(-1220.32092, 1842.07996, 40.61417,	GetLootIndexFromName("world_civilian"), 20.0);
+CreateStaticLootSpawn(-1365.47742, 2057.56055, 51.53279,	GetLootIndexFromName("world_civilian"), 20.0);
+CreateStaticLootSpawn(-692.68323, 928.51282, 12.62511,		GetLootIndexFromName("world_civilian"), 20.0);
+CreateStaticLootSpawn(-685.78192, 939.49304, 12.63766,		GetLootIndexFromName("world_civilian"), 20.0);
+CreateStaticLootSpawn(-683.28857, 942.53912, 15.82795,		GetLootIndexFromName("world_civilian"), 20.0);
+CreateStaticLootSpawn(-665.74475, 877.97656, 0.99825,		GetLootIndexFromName("world_civilian"), 20.0);
+
+CreateStaticLootSpawn(-1832.72266, 2059.21997, 8.70734,		GetLootIndexFromName("world_industrial"), 15.0);
+CreateStaticLootSpawn(-1512.04004, 1972.73035, 47.41776,	GetLootIndexFromName("world_industrial"), 15.0);
+CreateStaticLootSpawn(-1503.97571, 1978.29919, 47.41971,	GetLootIndexFromName("world_industrial"), 15.0);
+CreateStaticLootSpawn(-1381.84265, 2114.90283, 41.18408,	GetLootIndexFromName("world_industrial"), 15.0);
+CreateStaticLootSpawn(-1374.62378, 2108.19263, 41.18366,	GetLootIndexFromName("world_industrial"), 15.0);
+CreateStaticLootSpawn(-1227.88245, 1834.90979, 40.60062,	GetLootIndexFromName("world_industrial"), 15.0);
+CreateStaticLootSpawn(-672.89850, 961.59961, 11.12390,		GetLootIndexFromName("world_industrial"), 15.0);
+CreateStaticLootSpawn(-689.60468, 970.07257, 11.17480,		GetLootIndexFromName("world_industrial"), 15.0);
+CreateStaticLootSpawn(-657.66016, 879.13013, 0.99663,		GetLootIndexFromName("world_industrial"), 15.0);
+CreateStaticLootSpawn(-666.04785, 939.41364, 11.11209,		GetLootIndexFromName("world_industrial"), 15.0);
+
+CreateStaticLootSpawn(-2091.51270, 2313.77466, 24.88898,	GetLootIndexFromName("world_survivor"), 10.0);
+CreateStaticLootSpawn(-1314.31531, 2546.07446, 86.72868,	GetLootIndexFromName("world_survivor"), 10.0);
+CreateStaticLootSpawn(-1311.71777, 2512.58179, 86.03461,	GetLootIndexFromName("world_survivor"), 10.0);
+CreateStaticLootSpawn(-1317.55945, 2524.69678, 86.47644,	GetLootIndexFromName("world_survivor"), 10.0);
+CreateStaticLootSpawn(-1290.96448, 2513.11328, 86.03764,	GetLootIndexFromName("world_survivor"), 10.0);
+CreateStaticLootSpawn(-696.70526, 934.70117, 15.82476,		GetLootIndexFromName("world_survivor"), 10.0);

@@ -23,7 +23,7 @@
 
 #include <YSI\y_hooks>
 
-#define DIRECTORY_LOOT_TABLES "item-spawns"
+#define DIRECTORY_LOOT_TABLES DIRECTORY_ITEM_SPAWNS "index/"
 
 hook OnScriptInit() {
     CreateDirIfNotExists("scriptfiles/" DIRECTORY_LOOT_TABLES);

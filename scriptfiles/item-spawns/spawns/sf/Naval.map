@@ -1,0 +1,25 @@
+CreateItemSpawn(-1465.579956, 339.299987, 6.280000,		"world_military", 10.0);
+CreateItemSpawn(-1472.560058, 364.420013, 6.269999,		"world_military", 10.0);
+CreateItemSpawn(-1344.849975, 368.000000, 6.269999,		"world_military", 10.0);
+CreateItemSpawn(-1407.250000, 378.339996, 6.269999,		"world_military", 10.0);
+CreateItemSpawn(-1449.880004, 402.549987, 6.269999,		"world_military", 10.0);
+CreateItemSpawn(-1476.319946, 429.850006, 6.260000,		"world_military", 10.0);
+CreateItemSpawn(-1401.060058, 414.570007, 6.260000,		"world_military", 10.0);
+CreateItemSpawn(-1294.810058, 483.769989, 0.259999,		"world_military", 10.0);
+CreateItemSpawn(-1471.180053, 483.750000, 0.259999,		"world_military", 10.0);
+CreateItemSpawn(-1412.579956, 512.280029, 2.119999,		"world_military", 10.0);
+CreateItemSpawn(-1380.530029, 506.390014, 2.129999,		"world_military", 10.0);
+CreateItemSpawn(-1371.579956, 494.739990, 2.129999,		"world_military", 10.0);
+CreateItemSpawn(-1354.310058, 492.500000, 10.289999,		"world_military", 10.0);
+CreateItemSpawn(-1398.160034, 491.029998, 10.279999,		"world_military", 10.0);
+CreateItemSpawn(-1404.579956, 496.260009, 10.279999,		"world_military", 10.0);
+CreateItemSpawn(-1358.599975, 505.079986, 10.279999,		"world_military", 10.0);
+CreateItemSpawn(-1294.000000, 506.910003, 10.279999,		"world_military", 10.0);
+CreateItemSpawn(-1291.290039, 490.799987, 10.279999,		"world_military", 10.0);
+CreateItemSpawn(-1250.599975, 501.480010, 17.360000,		"world_military", 10.0);
+CreateItemSpawn(-1313.859985, 491.769989, 17.309999,		"world_military", 10.0);
+CreateItemSpawn(-1390.660034, 496.200012, 17.309999,		"world_military", 10.0);
+CreateItemSpawn(-1369.589965, 490.459991, 23.380001,		"world_military", 10.0);
+
+CreateItemSpawn(-1341.034763, 493.847340, 32.344374,		"world_survivor", 8.0);
+CreateItemSpawn(-1383.904763, 493.747340, 26.94374,		"world_survivor", 8.0);
