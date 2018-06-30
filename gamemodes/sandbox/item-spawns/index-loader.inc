@@ -17,6 +17,16 @@
 
 
 // -
+// API
+// -
+
+// LoadLootIndexData loads loot index data from a directory
+stock LoadLootIndexData(path[]) {
+    return _item_spawn_readDirectory(path);
+}
+
+
+// -
 // Internal
 // -
 
@@ -24,19 +34,16 @@
 
 #define DIRECTORY_LOOT_TABLES DIRECTORY_ITEM_SPAWNS "index/"
 
+
+// -
+// Internal
+// -
+
 hook OnScriptInit() {
     CreateDirIfNotExists("scriptfiles/" DIRECTORY_LOOT_TABLES);
 }
 
-hook OnGameModeInit() {
-    new total = _item_spawn_readDirectory("scriptfiles/" DIRECTORY_LOOT_TABLES);
-
-    log("loaded loot table entries",
-        _i("total", total));
-}
-
-_item_spawn_readDirectory(path[])
-{
+_item_spawn_readDirectory(path[]) {
     new
         Directory:directory,
         entry[64],
