@@ -19,6 +19,22 @@
 #define MAX_CONTAINER_SLOTS (100)
 
 // -
+// Macros
+// -
+
+#define HOLDING(%0) \
+	((newkeys & (%0)) == (%0))
+
+#define PRESSED(%0) \
+	(((newkeys & (%0)) == (%0)) && ((oldkeys & (%0)) != (%0)))
+
+#define PRESSING(%0,%1) \
+	(%0 & (%1))
+
+#define RELEASED(%0) \
+	(((newkeys & (%0)) != (%0)) && ((oldkeys & (%0)) == (%0)))
+
+// -
 // Colors
 // -
 
@@ -50,8 +66,9 @@ new RequestsClient:storeClient;
 // -
 
 #include <gamemode-core>
-#include <world>
+//#include <world>
 #include <player-lifecycle>
+#include <vehicles>
 
 #if defined DEV_BUILD
     #include <dev-tools>

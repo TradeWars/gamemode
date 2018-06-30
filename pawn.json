@@ -15,6 +15,7 @@
 		"BigETI/pawn-map",
 		"Southclaws/ScavengeSurviveCore:18w25.6.12",
 		"maddinat0r/sscanf",
+		"JaTochNietDan/SA-MP-FileManager"
 		"ScavengeSurvive/item:1.10.4",
 		"Southclaws/pawn-fsutil:1.0.4",
 		"oscar-broman/strlib",
@@ -32,7 +33,9 @@
 				"gamemodes/sandbox/player-lifecycle",
 				"gamemodes/sandbox/player-auth",
 				"gamemodes/sandbox/class-selection",
-				"gamemodes/sandbox/dev-tools"
+				"gamemodes/sandbox/dev-tools",
+				"gamemodes/sandbox/vehicles"
+			]
 			],
 			"consants": {
 				"DEV_BUILD": "1"
@@ -48,7 +51,8 @@
 				"gamemodes/sandbox/player-lifecycle",
 				"gamemodes/sandbox/player-auth",
 				"gamemodes/sandbox/class-selection",
-				"gamemodes/sandbox/dev-tools"
+				"gamemodes/sandbox/dev-tools",
+				"gamemodes/sandbox/vehicles"
 			],
 			"constants": {
 				"DEV_BUILD": "1",
