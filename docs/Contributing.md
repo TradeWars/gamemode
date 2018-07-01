@@ -1,15 +1,6 @@
 # Contributing
 
-## Adding Things
-
-This mode may differ slightly to other Pawn codebases out there. It's first and
-foremost an experiment and testing ground for new development methods.
-
-That being said, I do not wish to discourage anyone from contributing! The whole
-point of this new project structure for Pawn is to make the collaboration
-process on Pawn projects smoother.
-
-### Branches
+## Branches
 
 If you have push access to the repository, this section is very important.
 
@@ -26,10 +17,18 @@ You should read the above link for more information. In short:
 
 See below for a brief overview of the workflow for implementing something new.
 
-### New Features
+## Adding New Features
+
+This mode may differ slightly to other Pawn codebases out there. It's first and
+foremost an experiment and testing ground for new development methods.
+
+That being said, I do not wish to discourage anyone from contributing! The whole
+point of this new project structure for Pawn is to make the collaboration
+process on Pawn projects smoother.
 
 When adding a new feature, first you must create a new branch for it _from_ the
-`develop` branch:
+`develop` branch unless you're specifically doing a hotfix on an existing branch
+in which case you should notify the owner of that feature branch.
 
 ```bash
 git checkout develop
