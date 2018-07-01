@@ -1,4 +1,4 @@
-# Contributing
+# Style Guide
 
 This gamemode follows
 [Modern Pawn](https://github.com/Southclaws/sampctl/wiki/Modern-Pawn) standards
@@ -40,10 +40,10 @@ In short, follow the
 Packages must have a `README.md` file and an "entry point". Internal packages
 don't _need_ a `pawn.json` but it can help for testing.
 
-Packages may export their API through a single file, the "Entry Module" or
-"Entry Script". If so, this module must have the same name as the directory.
-Sometimes packages may contain multiple files that contain exported API
-(functions, events) - this is fine for larger packages that provide lots of
+Packages should try to export their API through a single file, the "Entry
+Module" or "Entry Script". If so, this module must have the same name as the
+directory. Sometimes packages may contain multiple files that contain exported
+API (functions, events) - this is fine for larger packages that provide lots of
 functionality however try to keep the interface part of a package as small as
 possible.
 
@@ -111,7 +111,7 @@ Most dependencies should be documented. If you find one that isn't, and it's
 written by a contributor here, ping them on Discord or open an issue to document
 the code some more.
 
-## Style
+## Source Code
 
 Contributions should adhere to the style guide. This guide is loosely based on
 [this guide](https://tarantool.io/en/doc/1.7/dev_guide/c_style_guide.html) for
@@ -294,54 +294,3 @@ stock Error:LoadPlayerAccount(playerid) {
 
 Each package should have a `README.md` and, if necessary, each module should
 have a comment on the very first line describing what that module provides.
-
-## Adding Things
-
-This mode may differ slightly to other Pawn codebases out there. It's first and
-foremost an experiment and testing ground for new development methods.
-
-That being said, I do not wish to discourage anyone from contributing! The whole
-point of this new project structure for Pawn is to make the collaboration
-process on Pawn projects smoother.
-
-### Branches
-
-If you have push access to the repository, this section is very important.
-
-This project makes use of
-[**Git Flow**](https://nvie.com/posts/a-successful-git-branching-model/) as a
-model for managing branches.
-
-You should read the above link for more information. In short:
-
-- `master` branch only contains working code that will go live
-- `hotfix` branches fix minor problems in `master`
-- `develop` branch contains latest experimental code
-- `feature-*` branches implement and test new features
-
-See below for a brief overview of the workflow for implementing something new.
-
-### New Features
-
-When adding a new feature, first you must create a new branch for it _from_ the
-`develop` branch: `git checkout develop`, `git checkout -b feature-newthing`.
-The branch name must begin with `feature-`, all lowercase using dashes as
-separators, for example: `feature-item-shop`.
-
-Now create a new package for it somewhere in the `/gamemodes/sandbox/`
-directory. The package should have a brief `README.md` file describing the
-feature.
-
-Once you've done that, as long as you follow the style guide, and a feature
-proposal in the issues section you can write the code and implement the feature.
-
-When you've done and the code is ready to be merged, merge it into `develop` so
-it can be staged with other experimental features and code. Once it has been
-deemed safe, a project lead will merge `develop` into `master` and it will be
-released onto the live server.
-
-### Tutorials
-
-There are tutorials and documentation available for the codebase in
-[the Wiki section](https://github.com/Southclaws/samp-sandbox/wiki) of the
-GitHub page.
