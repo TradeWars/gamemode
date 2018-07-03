@@ -27,7 +27,7 @@ A **Module** is a single Pawn source file, with an `.inc` extension.
 A **Package** may consist of multiple **Modules**, therefore some internal
 functions can not use `static` if they are used across different modules in the
 same package. When this occurs, functions must use a name style to indicate that
-they are _unexported_. See the [function style](#Functions) section for details.
+they are _unexported_. See the [function style](#functions) section for details.
 
 Modules must never expose global variables. Functions must be used instead with,
 where appropriate, bounds checking and validity checks.
