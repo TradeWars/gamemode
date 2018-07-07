@@ -38,7 +38,7 @@ git checkout -b feature-newthing
 The branch name must begin with `feature-`, all lowercase using dashes as
 separators, for example: `feature-item-shop`.
 
-Now create a new package for it somewhere in the `/gamemodes/sandbox/`
+Now create a new package for it somewhere in the `/gamemodes/tradewars/`
 directory. The package should have a brief `README.md` file describing the
 feature.
 

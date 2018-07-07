@@ -1,5 +1,5 @@
 // -
-// SA:MP Sandbox
+// Trade Wars
 // By Southclaws, 2018
 // -
 

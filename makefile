@@ -1,5 +1,5 @@
 # -
-# samp-sandbox makefile
+# TradeWars/gamemode makefile
 #
 # This is mainly for running Docker tasks and database setup scripts.
 # -
@@ -9,15 +9,18 @@ NEW_VERSION := $(shell date -u +%yw%W.%w.%H)
 -include .env
 
 
+next:
+	echo $(NEW_VERSION) > VERSION
+
 build:
 	docker build \
 		--no-cache \
-		--tag southclaws/samp-sandbox:$(VERSION) \
+		--tag southclaws/tw-gamemode:$(VERSION) \
 		.
 
 run:
 	docker run \
-		southclaws/samp-sandbox:$(VERSION) \
+		southclaws/tw-gamemode:$(VERSION) \
 
 release:
 	echo $(NEW_VERSION) > VERSION

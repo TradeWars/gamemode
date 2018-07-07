@@ -1,8 +1,8 @@
 {
-	"user": "Southclaws",
-	"repo": "samp-sandbox",
-	"entry": "gamemodes/sandbox.pwn",
-	"output": "gamemodes/sandbox.amx",
+	"user": "TradeWars",
+	"repo": "gamemode",
+	"entry": "gamemodes/tradewars.pwn",
+	"output": "gamemodes/tradewars.amx",
 	"dependencies": [
 		"sampctl/samp-stdlib",
 		"Southclaws/samp-logger:1.2.6",
@@ -13,27 +13,27 @@
 		"lassir/bcrypt-samp:v2.2.3",
 		"Awsomedude/easyDialog:2.0",
 		"BigETI/pawn-map",
-		"Southclaws/ScavengeSurviveCore:18w25.6.12",
 		"maddinat0r/sscanf:v2.8.2",
 		"ScavengeSurvive/item:1.10.4",
 		"Southclaws/pawn-fsutil:1.0.4",
 		"oscar-broman/strlib",
-		"UrShadow/Pawn.CMD:3.1.4"
+		"UrShadow/Pawn.CMD:3.1.4",
+		"TradeWars/warehouse:18w25.6.12"
 	],
 	"local": true,
 	"builds": [
 		{
 			"name": "dev",
 			"includes": [
-				"gamemodes/sandbox/utils",
-				"gamemodes/sandbox/gamemode-core",
-				"gamemodes/sandbox/world",
-				"gamemodes/sandbox/item-spawns",
-				"gamemodes/sandbox/player-lifecycle",
-				"gamemodes/sandbox/player-auth",
-				"gamemodes/sandbox/class-selection",
-				"gamemodes/sandbox/dev-tools",
-				"gamemodes/sandbox/vehicles"
+				"gamemodes/tradewars/utils",
+				"gamemodes/tradewars/gamemode-core",
+				"gamemodes/tradewars/world",
+				"gamemodes/tradewars/item-spawns",
+				"gamemodes/tradewars/player-lifecycle",
+				"gamemodes/tradewars/player-auth",
+				"gamemodes/tradewars/class-selection",
+				"gamemodes/tradewars/dev-tools",
+				"gamemodes/tradewars/vehicles"
 			],
 			"consants": {
 				"DEV_BUILD": "1"
@@ -42,15 +42,15 @@
 		{
 			"name": "dev-noauth",
 			"includes": [
-				"gamemodes/sandbox/utils",
-				"gamemodes/sandbox/gamemode-core",
-				"gamemodes/sandbox/world",
-				"gamemodes/sandbox/item-spawns",
-				"gamemodes/sandbox/player-lifecycle",
-				"gamemodes/sandbox/player-auth",
-				"gamemodes/sandbox/class-selection",
-				"gamemodes/sandbox/dev-tools",
-				"gamemodes/sandbox/vehicles"
+				"gamemodes/tradewars/utils",
+				"gamemodes/tradewars/gamemode-core",
+				"gamemodes/tradewars/world",
+				"gamemodes/tradewars/item-spawns",
+				"gamemodes/tradewars/player-lifecycle",
+				"gamemodes/tradewars/player-auth",
+				"gamemodes/tradewars/class-selection",
+				"gamemodes/tradewars/dev-tools",
+				"gamemodes/tradewars/vehicles"
 			],
 			"constants": {
 				"DEV_BUILD": "1",
@@ -60,9 +60,9 @@
 		{
 			"name": "prod",
 			"includes": [
-				"gamemodes/sandbox/player-lifecycle",
-				"gamemodes/sandbox/player-auth",
-				"gamemodes/sandbox/class-selection"
+				"gamemodes/tradewars/player-lifecycle",
+				"gamemodes/tradewars/player-auth",
+				"gamemodes/tradewars/class-selection"
 			]
 		}
 	],
