@@ -6,7 +6,7 @@
 	"dependencies": [
 		"sampctl/samp-stdlib",
 		"Southclaws/samp-logger:1.2.6",
-		"Southclaws/pawn-errors:1.2.1",
+		"Southclaws/pawn-errors:1.2.2",
 		"pawn-lang/YSI-Includes",
 		"ScavengeSurvive/settings:1.0.1",
 		"Southclaws/pawn-requests:0.8.2",

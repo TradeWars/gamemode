@@ -94,7 +94,7 @@ public OnScriptInit() {
     // Set up the Requests HTTP client
     new
         endpoint[128],
-        auth[64],
+        auth[256],
         ret;
 
     ret = GetEnv("WAREHOUSE_ENDPOINT", endpoint);
@@ -106,6 +106,8 @@ public OnScriptInit() {
     if(ret == 0) {
         fatal("environment variable `WAREHOUSE_AUTH` not set!");
     }
+
+    log("warehouse configuration", _s("endpoint", endpoint));
 
     // Create the requests client with the endpoint.
     storeClient = RequestsClient(endpoint, RequestHeaders(
