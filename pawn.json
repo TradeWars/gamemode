@@ -60,9 +60,15 @@
 		{
 			"name": "prod",
 			"includes": [
+				"gamemodes/tradewars/utils",
+				"gamemodes/tradewars/gamemode-core",
+				"gamemodes/tradewars/world",
+				"gamemodes/tradewars/item-spawns",
 				"gamemodes/tradewars/player-lifecycle",
 				"gamemodes/tradewars/player-auth",
-				"gamemodes/tradewars/class-selection"
+				"gamemodes/tradewars/class-selection",
+				"gamemodes/tradewars/dev-tools",
+				"gamemodes/tradewars/vehicles"
 			]
 		}
 	],
