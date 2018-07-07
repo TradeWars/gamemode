@@ -9,8 +9,20 @@ NEW_VERSION := $(shell date -u +%yw%W.%w.%H)
 -include .env
 
 
+# -
+# Local
+# -
+
+local:
+	sampctl package run --forceBuild 
+
 next:
 	echo $(NEW_VERSION) > VERSION
+
+
+# -
+# Docker
+# -
 
 build:
 	docker build \
@@ -18,9 +30,10 @@ build:
 		--tag southclaws/tw-gamemode:$(VERSION) \
 		.
 
+push:
+	docker push \
+		southclaws/tw-gamemode:$(VERSION)
+
 run:
 	docker run \
 		southclaws/tw-gamemode:$(VERSION) \
-
-release:
-	echo $(NEW_VERSION) > VERSION
