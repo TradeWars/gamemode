@@ -36,4 +36,4 @@ push:
 
 run:
 	docker run \
-		southclaws/tw-gamemode:$(VERSION) \
+		southclaws/tw-gamemode:$(VERSION)
