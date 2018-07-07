@@ -31,8 +31,8 @@ static bool:LoggedIn[MAX_PLAYERS];
 // API
 // -
 
-// OnAccountLoaded is called when a player has completed the login flow and has
-// either an existing account or needs to register a new one.
+// OnAccountLoaded is called when the player's account data has been loaded or
+// confirmed to not exist, which is reflected by `bool:exists`.
 forward OnAccountLoaded(playerid, bool:exists, Node:node);
 
 // OnAccountStore is called before an account is stored. This is where modules
