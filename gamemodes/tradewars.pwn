@@ -48,6 +48,7 @@
 // External Packages
 //
 
+#include <env>
 #include <logger>
 #include <sscanf2>
 
@@ -93,10 +94,18 @@ public OnScriptInit() {
     // Set up the Requests HTTP client
     new
         endpoint[128],
-        auth[64];
+        auth[64],
+        ret;
 
-    GetSettingString("settings.ini", "endpoint", "http://localhost:7788", endpoint);
-    GetSettingString("settings.ini", "auth", "cunning_fox", auth);
+    ret = GetEnv("WAREHOUSE_ENDPOINT", endpoint);
+    if(ret == 0) {
+        fatal("environment variable `WAREHOUSE_ENDPOINT` not set!");
+    }
+
+    ret = GetEnv("WAREHOUSE_AUTH", auth);
+    if(ret == 0) {
+        fatal("environment variable `WAREHOUSE_AUTH` not set!");
+    }
 
     // Create the requests client with the endpoint.
     storeClient = RequestsClient(endpoint, RequestHeaders(

@@ -18,7 +18,8 @@
 		"Southclaws/pawn-fsutil:1.0.4",
 		"oscar-broman/strlib",
 		"UrShadow/Pawn.CMD:3.1.4",
-		"TradeWars/warehouse:18w25.6.12"
+		"TradeWars/warehouse:18w25.6.12",
+		"Southclaws/pawn-env:1.0.0"
 	],
 	"local": true,
 	"builds": [
