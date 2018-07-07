@@ -1,4 +1,4 @@
-FROM southclaws/sampctl:1.8.4
+FROM southclaws/sampctl:1.8.12
 
 ADD . .
 
