@@ -17,7 +17,7 @@ local:
 	VERSION=$(VERSION) \
 	WAREHOUSE_ENDPOINT=http://localhost:7788 \
 	WAREHOUSE_AUTH=cunning_fox \
-	sampctl package run --forceBuild --build dev
+	sampctl package run --forceBuild --build dev main
 
 next:
 	echo $(NEW_VERSION) > VERSION

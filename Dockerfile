@@ -9,4 +9,4 @@ RUN sampctl package ensure && \
     sampctl package build && \
     apt update && apt install -y libuuid1:i386 uuid-dev:i386
 
-ENTRYPOINT [ "sampctl", "package", "run" ]
+ENTRYPOINT [ "sampctl", "package", "run", "main" ]
