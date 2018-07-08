@@ -1,5 +1,8 @@
 FROM southclaws/sampctl:1.8.14
 
+ARG VERSION=master
+ENV VERSION $VERSION
+
 ADD . .
 
 RUN sampctl package ensure && \

@@ -30,6 +30,7 @@ next:
 build:
 	docker build \
 		--no-cache \
+		--build-arg VERSION=$(VERSION) \
 		--tag southclaws/tw-gamemode:$(VERSION) \
 		.
 
