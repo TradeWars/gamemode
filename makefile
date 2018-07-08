@@ -40,4 +40,7 @@ push:
 
 run:
 	docker run \
+		-e VERSION=$(VERSION) \
+		-e WAREHOUSE_ENDPOINT=http://localhost:7788 \
+		-e WAREHOUSE_AUTH=cunning_fox \
 		southclaws/tw-gamemode:$(VERSION)

@@ -1,7 +1,7 @@
 // PasswordHash is to store the player's password hash that was loaded from the
 // database. This is because the password hash is passed in via `promptLogin`
 // so it does not need to be shared globally.
-static PasswordHash[MAX_PLAYERS][BCRYPT_HASH_LENGTH];
+static PasswordHash[MAX_PLAYERS][WHIRLPOOL_LEN];
 
 promptLogin(playerid, passwordHash[], len = sizeof passwordHash) {
     dbg("player", "prompting login", _i("playerid", playerid));
@@ -25,24 +25,18 @@ Dialog:onLoginResponse(playerid, response, item, input[]) {
         return;
     }
 
-    dbg("player", "player requesting password check", _i("playerid", playerid));
-    bcrypt_check(
-        input,
-        PasswordHash[playerid],
-        "onPasswordChecked",
-        "d",
-        playerid
-    );
-}
+    new buf[WHIRLPOOL_LEN];
+    WP_Hash(buf, WHIRLPOOL_LEN, input);
+    if(strcmp(buf, PasswordHash[playerid])) {
+        dbg("player", "password check failed",
+            _i("playerid", playerid));
 
-forward onPasswordChecked(playerid);
-public onPasswordChecked(playerid) {
-    if(bcrypt_is_equal()) {
-        dbg("player", "password check passed", _i("playerid", playerid));
-        onLoggedIn(playerid);
-    } else {
-        dbg("player", "password check failed", _i("playerid", playerid));
         // TODO: attempt counter for anti-bruteforce attack
         promptLogin(playerid, PasswordHash[playerid]);
+    } else {
+        dbg("player", "password check passed",
+            _i("playerid", playerid));
+
+        onLoggedIn(playerid);
     }
 }

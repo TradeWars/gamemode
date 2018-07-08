@@ -9,7 +9,7 @@
 #include <requests>
 #include <map>
 #include <easyDialog>
-#include <bcrypt>
+#include <whirlpool>
 #include <warehouse>
 #include <errors>
 
@@ -25,13 +25,10 @@
 // Declarations
 // -
 
-// BCRYPT_COST is used in bcrypt calls as the work factor for encryption.
-new const BCRYPT_COST = 12;
-
 const MAX_OBJECT_ID_LEN = 25;
 
 static PlayerObjectID[MAX_PLAYERS][MAX_OBJECT_ID_LEN];
-static PasswordHash[MAX_PLAYERS][BCRYPT_HASH_LENGTH];
+static PasswordHash[MAX_PLAYERS][WHIRLPOOL_LEN];
 static bool:LoggedIn[MAX_PLAYERS];
 
 // -
@@ -121,7 +118,7 @@ hook OnWarehousePlayerGet(playerid, bool:success, message[], Error:error, Node:r
             err("failed to read account._id field");
         }
 
-        if(JsonGetString(account, "pass", PasswordHash[playerid], BCRYPT_HASH_LENGTH)) {
+        if(JsonGetString(account, "pass", PasswordHash[playerid], WHIRLPOOL_LEN)) {
             err("failed to read account.pass field");
         }
 
@@ -192,9 +189,8 @@ hook OnAccountStore(playerid, Node:node) {
     ));
 }
 
-onRegistered(playerid) {
-    bcrypt_get_hash(PasswordHash[playerid]);
-
+onRegistered(playerid, buf[WHIRLPOOL_LEN]) {
+    PasswordHash[playerid] = buf;
     new Node:object = JsonObject();
 
     JsonToggleGC(object, false);

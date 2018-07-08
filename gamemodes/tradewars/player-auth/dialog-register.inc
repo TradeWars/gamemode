@@ -18,12 +18,17 @@ Dialog:onRegisterResponse(playerid, response, item, input[]) {
         return;
     }
 
-    dbg("player", "player requesting password hash", _i("playerid", playerid));
-    bcrypt_hash(input, BCRYPT_COST, "onPasswordHashed", "d", playerid);
-}
+    if(strlen(input) < 10) {
+        promptRegister(playerid);
+        return;
+    }
 
-forward onPasswordHashed(playerid);
-public onPasswordHashed(playerid) {
-    dbg("player", "password hash complete", _i("playerid", playerid));
-    onRegistered(playerid);
+    dbg("player", "hashing player password",
+        _i("playerid", playerid));
+
+    new buf[WHIRLPOOL_LEN];
+    WP_Hash(buf, WHIRLPOOL_LEN, input);
+    onRegistered(playerid, buf);
+
+    return;
 }

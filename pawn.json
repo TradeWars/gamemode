@@ -10,7 +10,7 @@
 		"pawn-lang/YSI-Includes",
 		"ScavengeSurvive/settings:1.0.1",
 		"Southclaws/pawn-requests:0.8.3",
-		"lassir/bcrypt-samp:v2.2.3",
+		"Southclaws/samp-whirlpool:v1.0.0",
 		"Awsomedude/easyDialog:2.0",
 		"BigETI/pawn-map",
 		"maddinat0r/sscanf:v2.8.2",
