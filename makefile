@@ -14,7 +14,10 @@ NEW_VERSION := $(shell date -u +%yw%W.%w.%H)
 # -
 
 local:
-	sampctl package run --forceBuild 
+	VERSION=$(VERSION) \
+	WAREHOUSE_ENDPOINT=http://localhost:7788 \
+	WAREHOUSE_AUTH=cunning_fox \
+	sampctl package run --forceBuild --build dev
 
 next:
 	echo $(NEW_VERSION) > VERSION

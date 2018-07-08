@@ -59,7 +59,8 @@ native gpci(playerid, serial[], len);
 // Global Declarations
 // -
 
-new RequestsClient:storeClient;
+new RequestsClient:Warehouse;
+new Version[11];
 
 
 // -
@@ -107,17 +108,39 @@ public OnScriptInit() {
         fatal("environment variable `WAREHOUSE_AUTH` not set!");
     }
 
+    ret = GetEnv("VERSION", Version);
+    if(ret == 0) {
+        fatal("environment variable `VERSION` not set!");
+    }
+
     log("warehouse configuration", _s("endpoint", endpoint));
 
     // Create the requests client with the endpoint.
-    storeClient = RequestsClient(endpoint, RequestHeaders(
+    Warehouse = RequestsClient(endpoint, RequestHeaders(
         "Authorization", auth
     ));
-    if(!IsValidRequestsClient(storeClient)) {
+    if(!IsValidRequestsClient(Warehouse)) {
         fatal("failed to create requests client");
     }
 
+    new Error:e = WarehouseIndex(Warehouse);
+    if(IsError(e)) {
+        fatal("failed to request warehouse index",
+            _E(e));
+    }
+
     return 0;
+}
+
+public OnWarehouseIndex(bool:success, message[], Error:error, Node:result) {
+    if(!success) {
+        fatal("failed to get warehouse index",
+            _s("message", message));
+    } else {
+        log("successfully connected to warehouse",
+            _s("message", message),
+            _s("version", Version));
+    }
 }
 
 public OnGameModeInit() {

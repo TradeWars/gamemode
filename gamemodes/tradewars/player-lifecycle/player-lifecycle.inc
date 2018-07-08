@@ -1,8 +1,12 @@
 // player-spawn controls the spawn flow after invoking authentication.
 
+// -
 // Internal packages
+// -
+
 #include <class-selection>
 #include <player-auth>
+#include <error-dialog>
 
 
 // -
@@ -54,18 +58,22 @@ hook OnPlayerReady(playerid) {
 hook OnAccountLoaded(playerid, bool:exists, Node:node) {
     dbg("player", "account loaded", _i("playerid", playerid));
 
+    new bool:needsSpawn;
     if(exists) {
         new Node:spawn;
         new ret = JsonGetObject(node, "spawn", spawn);
         if(ret) {
-            err("failed to read spawn field",
-                _i("ret", ret));
+            err("failed to spawn player",
+                _E(Error(1, "failed to read spawn field")));
+            ShowErrorDialog(playerid);
+            Handled();
+            needsSpawn = true;
         }
         JsonGetFloat(spawn, "posx", Spawn[playerid][E_SPAWN_X]);
         JsonGetFloat(spawn, "posy", Spawn[playerid][E_SPAWN_Y]);
         JsonGetFloat(spawn, "posz", Spawn[playerid][E_SPAWN_Z]);
         JsonGetFloat(spawn, "posa", Spawn[playerid][E_SPAWN_A]);
-    } else {
+    } else if(!exists || needsSpawn) {
         Spawn[playerid][E_SPAWN_X] = DEFAULT_POS_X;
         Spawn[playerid][E_SPAWN_Y] = DEFAULT_POS_Y;
         Spawn[playerid][E_SPAWN_Z] = DEFAULT_POS_Z;

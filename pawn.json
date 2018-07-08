@@ -9,7 +9,7 @@
 		"Southclaws/pawn-errors:1.2.2",
 		"pawn-lang/YSI-Includes",
 		"ScavengeSurvive/settings:1.0.1",
-		"Southclaws/pawn-requests:0.8.2",
+		"Southclaws/pawn-requests:0.8.3",
 		"lassir/bcrypt-samp:v2.2.3",
 		"Awsomedude/easyDialog:2.0",
 		"BigETI/pawn-map",
@@ -18,7 +18,7 @@
 		"Southclaws/pawn-fsutil:1.0.4",
 		"oscar-broman/strlib",
 		"UrShadow/Pawn.CMD:3.1.4",
-		"TradeWars/warehouse:18w25.6.12",
+		"TradeWars/warehouse:18w27.0.13",
 		"Southclaws/pawn-env:1.0.0"
 	],
 	"local": true,

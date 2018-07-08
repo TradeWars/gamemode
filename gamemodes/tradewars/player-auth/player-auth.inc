@@ -10,8 +10,15 @@
 #include <map>
 #include <easyDialog>
 #include <bcrypt>
-#include <ssc>
+#include <warehouse>
 #include <errors>
+
+
+// -
+// Internal packages
+// -
+
+#include <error-dialog>
 
 
 // -
@@ -58,7 +65,7 @@ stock bool:IsPlayerLoggedIn(playerid) {
 stock Error:LoadPlayerAccount(playerid) {
     new name[MAX_PLAYER_NAME];
     GetPlayerName(playerid, name, MAX_PLAYER_NAME);
-    return SSC_PlayerGetByName(storeClient, playerid, name);
+    return WarehousePlayerGetByName(Warehouse, playerid, name);
 }
 
 // StorePlayerAccount can be called to trigger the storage request to run. This
@@ -69,6 +76,10 @@ stock Error:StorePlayerAccount(playerid) {
         return Error(1, "player not logged in");
     }
 
+    if(strlen(PlayerObjectID[playerid]) != MAX_OBJECT_ID_LEN - 1) {
+        return Error(1, "stored object ID for player invalid");
+    }
+
     new Node:object = JsonObject(
         "_id", JsonString(PlayerObjectID[playerid])
     );
@@ -77,7 +88,7 @@ stock Error:StorePlayerAccount(playerid) {
     CallLocalFunction("OnAccountStore", "dd", playerid, _:object);
     JsonToggleGC(object, true);
 
-    return SSC_PlayerUpdate(storeClient, playerid, object);
+    return WarehousePlayerUpdate(Warehouse, playerid, object);
 }
 
 
@@ -89,10 +100,13 @@ stock Error:StorePlayerAccount(playerid) {
 #include "dialog-login"
 #include <YSI\y_hooks>
 
-hook OnSSCPlayerGet(playerid, bool:success, message[], Error:error, Node:result) {
+hook OnWarehousePlayerGet(playerid, bool:success, message[], Error:error, Node:result) {
     if(IsError(error)) {
-        PrintErrors();
+        err("failed to get player data",
+            _E(error));
+        ShowErrorDialog(playerid);
         Handled();
+        return;
     }
 
     if(success) {
@@ -111,7 +125,10 @@ hook OnSSCPlayerGet(playerid, bool:success, message[], Error:error, Node:result)
             err("failed to read account.pass field");
         }
 
-        dbg("player", "existing account loaded", _i("playerid", playerid));
+        dbg("player", "existing account loaded",
+            _i("playerid", playerid),
+            _s("id", PlayerObjectID[playerid]));
+
         promptLogin(playerid, PasswordHash[playerid]);
     } else {
         dbg("player", "new account required", _i("playerid", playerid));
@@ -121,11 +138,13 @@ hook OnSSCPlayerGet(playerid, bool:success, message[], Error:error, Node:result)
     CallLocalFunction("OnAccountLoaded", "ddd", playerid, success, _:result);
 }
 
-hook OnSSCPlayerUpdate(playerid, bool:success, message[], Error:error, Node:result) {
+hook OnWarehousePlayerUpdate(playerid, bool:success, message[], Error:error, Node:result) {
     if(IsError(error)) {
         err("failed to update player data",
             _E(error));
+        ShowErrorDialog(playerid);
         Handled();
+        return;
     }
 
     if(!success) {
@@ -134,11 +153,13 @@ hook OnSSCPlayerUpdate(playerid, bool:success, message[], Error:error, Node:resu
     }
 }
 
-hook OnSSCPlayerCreate(playerid, bool:success, message[], Error:error, Node:result) {
+hook OnWarehousePlayerCreate(playerid, bool:success, message[], Error:error, Node:result) {
     if(IsError(error)) {
-        err("failed to update player data",
+        err("failed to create player account",
             _E(error));
+        ShowErrorDialog(playerid);
         Handled();
+        return;
     }
 
     if(!success) {
@@ -180,7 +201,7 @@ onRegistered(playerid) {
     CallLocalFunction("OnAccountStore", "dd", playerid, _:object);
     JsonToggleGC(object, true);
 
-    new Error:e = SSC_PlayerCreate(storeClient, playerid, object);
+    new Error:e = WarehousePlayerCreate(Warehouse, playerid, object);
     if(IsError(e)) {
         err("failed to send playerCreate request");
         return;
@@ -190,7 +211,7 @@ onRegistered(playerid) {
 }
 
 onLoggedIn(playerid) {
-    signalReady(playerid, true);
+    signalReady(playerid, false);
 }
 
 // signalReady is called when the player has either successfully registered or
