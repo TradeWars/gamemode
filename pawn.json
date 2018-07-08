@@ -85,7 +85,9 @@
 			"name": "main",
 			"version": "0.3.7",
 			"mode": "server",
-			"port": 7777
+			"port": 7777,
+			"hostname": "Trade Wars",
+			"gamemodetext": "Trade Wars"
 		},
 		{
 			"name": "testing",
