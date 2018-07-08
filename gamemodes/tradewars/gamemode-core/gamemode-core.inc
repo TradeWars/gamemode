@@ -6,4 +6,5 @@
 // These elements are all to be initialised inside `OnScriptInit` making it a
 // safe assumption that these resources are ready to use in `OnGameModeInit`.
 
+#include "init"
 #include "itemtypes"
