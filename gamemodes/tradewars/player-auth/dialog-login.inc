@@ -10,7 +10,7 @@ promptLogin(playerid, passwordHash[], len = sizeof passwordHash) {
     Dialog_Open(
         playerid,
         "onLoginResponse",
-        DIALOG_STYLE_INPUT,
+        DIALOG_STYLE_PASSWORD,
         "Login",
         "Login to your account",
         "Confirm",

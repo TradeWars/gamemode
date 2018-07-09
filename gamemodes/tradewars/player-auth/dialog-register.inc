@@ -3,7 +3,7 @@ promptRegister(playerid) {
     Dialog_Open(
         playerid,
         "onRegisterResponse",
-        DIALOG_STYLE_INPUT,
+        DIALOG_STYLE_PASSWORD,
         "Register",
         "Register for a new account",
         "Confirm",
