@@ -6,7 +6,9 @@ static PasswordHash[MAX_PLAYERS][WHIRLPOOL_LEN];
 promptLogin(playerid, passwordHash[], len = sizeof passwordHash) {
     dbg("player", "prompting login", _i("playerid", playerid));
 
+    PasswordHash[playerid][0] = EOS;
     strcat(PasswordHash[playerid], passwordHash, len);
+
     Dialog_Open(
         playerid,
         "onLoginResponse",
