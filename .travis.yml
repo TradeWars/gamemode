@@ -23,13 +23,13 @@ jobs:
       script:
         - make static
         - docker build -t temp .
-        - docker tag temp "southclaws/tw-warehouse:$TRAVIS_BRANCH"
-        - docker push "southclaws/tw-warehouse:$TRAVIS_BRANCH"
+        - docker tag temp "southclaws/tw-gamemode:$TRAVIS_BRANCH"
+        - docker push "southclaws/tw-gamemode:$TRAVIS_BRANCH"
     - stage: deploy-tag
       name: deploy-tag
       if: tag IS present
       script:
         - make static
         - docker build -t temp .
-        - docker tag temp "southclaws/tw-warehouse:$TRAVIS_TAG"
-        - docker push "southclaws/tw-warehouse:$TRAVIS_TAG"
+        - docker tag temp "southclaws/tw-gamemode:$TRAVIS_TAG"
+        - docker push "southclaws/tw-gamemode:$TRAVIS_TAG"
