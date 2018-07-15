@@ -1,7 +1,7 @@
 # Documentation
 
 Here, you will find general documentation for working with the codebase. If you
-want to know something specific about an API, see the README.md file for the
+want to know something specific about an API, see the `README.md` file for the
 package it's from.
 
 If you don't know which package a function is from, use the find-in-files
