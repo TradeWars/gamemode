@@ -1,6 +1,6 @@
 sudo: required
 conditions: v1
-language: LANGUAGE
+language: cpp
 services:
   - docker
 jobs:
