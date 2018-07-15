@@ -4,13 +4,11 @@ language: cpp
 services:
   - docker
 install:
-- curl https://raw.githubusercontent.com/Southclaws/sampctl/master/install-deb.sh | sh
-- sudo dpkg --add-architecture i386
-- sudo apt update && sudo apt install -y g++-multilib
+  - curl https://raw.githubusercontent.com/Southclaws/sampctl/master/install-deb.sh | sh
+  - sudo dpkg --add-architecture i386
+  - sudo apt update && sudo apt install -y g++-multilib
 jobs:
   include:
-
-    # run unit tests
     - stage: build
       name: build
       script:
