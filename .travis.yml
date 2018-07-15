@@ -7,6 +7,8 @@ install:
   - curl https://raw.githubusercontent.com/Southclaws/sampctl/master/install-deb.sh | sh
   - sudo dpkg --add-architecture i386
   - sudo apt update && sudo apt install -y g++-multilib
+before_script:
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 jobs:
   include:
     - stage: build
